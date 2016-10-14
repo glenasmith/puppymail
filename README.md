@@ -1,6 +1,11 @@
-# Puppemail
+# PuppyMail
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.16.
+This is a small project to demonstrate using the Pocket API to create mailouts.
+
+
+# All the AutoGen Stuff
+
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17.
 
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
