@@ -6,12 +6,14 @@ import { HttpModule } from '@angular/http';
 import * as firebase from 'firebase';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
+import { PocketService } from './pocket.service';
+import { LoginService } from './login.service';
+
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { LoginComponent } from './login/login.component';
-import { SubscribersComponent } from './subscribers/subscribers.component';
-import { LoginService } from './login.service';
 import { SignupComponent } from './signup/signup.component';
+import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
  export const firebaseConfig = {
     apiKey: "AIzaSyCWw0pm52jeu48qR1GVTt41P8yKyXU-WHc",
@@ -33,8 +35,8 @@ export const firebaseAuthConfig = {
     AppComponent,
     MenuComponent,
     LoginComponent,
-    SubscribersComponent,
-    SignupComponent
+    SignupComponent,
+    PocketlinksComponent
   ],
   imports: [
     BrowserModule,
