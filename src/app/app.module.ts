@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { PuppyMailRoutingModule } from './app-routing.module';
 
 import * as firebase from 'firebase';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
@@ -42,9 +43,10 @@ export const firebaseAuthConfig = {
     BrowserModule,
     FormsModule,
     HttpModule,
+    PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],
-  providers: [LoginService],
+  providers: [LoginService, PocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
