@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
               console.log(`Localstorage code is ${code}`);
             }
             this.pocketService.getUserAccessToken(code).then(
-              (username) => {
-                console.log(`Username is: ${username}`);
+              (accessToken) => {
+                console.log(`Username is: ${this.pocketService.userName}`);
               }
             )
         } 
