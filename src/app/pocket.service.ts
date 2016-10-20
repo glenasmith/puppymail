@@ -9,7 +9,7 @@ export class PocketService {
 
   // proxy will send to = https://getpocket.com/
   private REAL_POCKET_BASE = 'https://getpocket.com/'; 
-  private PROXY = 'http://localhost:3000/proxy';
+  private PROXY = environment.pocketProxyBaseUrl;
   private POCKET_AUTH_REQUEST_URI = '/v3/oauth/request';
   private POCKET_AUTH_REDIRECT_URI_BASE = '/auth/authorize';
   private POCKET_AUTH_AUTHORIZE_URI = '/v3/oauth/authorize';
@@ -21,7 +21,7 @@ export class PocketService {
   code : string = '';
   accessToken : string = '';
 
-  private POCKET_RETURN_URL = 'http://localhost:4200/login/backFromPocket'
+  private POCKET_RETURN_URL = environment.baseAppUrl + '/login/backFromPocket';
 
   // Check out https://getpocket.com/developer/docs/authentication
   constructor(private http: Http, private router : Router) { }
@@ -30,15 +30,15 @@ export class PocketService {
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    //headers.append('Content-Type', 'application/json');
-    //headers.append('X-Accept', 'application/x-www-form-urlencoded');
+    // headers.append('Content-Type', 'application/json');
+    // headers.append('X-Accept', 'application/x-www-form-urlencoded');
     // append custom headers if required
 
     let dataJSON = {
       consumer_key: environment.pocketKey,
       redirect_uri: encodeURIComponent(this.POCKET_RETURN_URL),
       state: 'myCustomStateGoesHere'
-    }
+    };
 
 
 
@@ -77,7 +77,7 @@ export class PocketService {
     let dataJSON = {
       consumer_key: environment.pocketKey,
       code: requestToken
-    }
+    };
 
     let data = `consumer_key=${dataJSON.consumer_key}&code=${dataJSON.code}`;
 
@@ -87,7 +87,7 @@ export class PocketService {
         if (resp.ok) {
           console.log(resp.text());
           // access_token=5e3b013d-8f75-1f0f-077b-bba5db&username=glen%40bytecode.com.au
-          var lines = resp.text().split("&");
+          let lines = resp.text().split('&');
           this.accessToken = lines[0].split('=')[1];
           this.userName = decodeURIComponent(lines[1].split('=')[1]);
           return this.accessToken;

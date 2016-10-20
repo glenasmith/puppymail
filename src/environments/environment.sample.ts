@@ -3,5 +3,7 @@
 
 export const environment = {
   production: false,
-  pocketKey: 'your-pocket-api-key-here'
+  baseAppUrl: 'http://localhost:4200',
+  pocketKey: 'your-pocket-api-key-here',
+  pocketProxyBaseUrl: 'http://localhost:3000/proxy'
 };
