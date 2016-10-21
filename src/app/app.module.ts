@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
+import { DataListModule } from 'primeng/primeng';
+
  export const firebaseConfig = {
     apiKey: "AIzaSyCWw0pm52jeu48qR1GVTt41P8yKyXU-WHc",
     authDomain: "puppemail-eeeed.firebaseapp.com",
@@ -43,6 +45,7 @@ export const firebaseAuthConfig = {
     BrowserModule,
     FormsModule,
     HttpModule,
+    DataListModule,
     PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],

@@ -2,6 +2,7 @@
   pocketlinks works!
 </p>
 
+<!--
 <ul>
     <li *ngFor="let entry of entries">
       <a [href]='entry.resolved_url'>
@@ -9,5 +10,21 @@
       </a> 
     </li>
 </ul>
+-->
 
+
+<p-dataList [value]="entries" [paginator]="true" [rows]="5">
+	<header>
+		Recent Pocket Links
+	</header>
+	<template let-entry>
+		<div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
+			<div class="ui-grid-row">
+				<a [href]='entry.resolved_url'>
+        {{entry.resolved_title}}
+      </a>
+			</div>
+		</div>
+	</template>
+</p-dataList>
 

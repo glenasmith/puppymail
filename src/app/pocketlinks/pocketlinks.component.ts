@@ -9,6 +9,7 @@ import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 export class PocketlinksComponent implements OnInit {
 
   entries : Array<PocketEntry> = [];
+  rowsToDisplay = 5;
 
   constructor(private pocketService : PocketService) { 
     
@@ -16,7 +17,7 @@ export class PocketlinksComponent implements OnInit {
 
   ngOnInit() {
 
-      this.pocketService.getRecentArticles().then( (newArticles) => {
+      this.pocketService.getRecentArticles(0, 50).then( (newArticles) => {
         this.entries = newArticles.entries;
       });
 
