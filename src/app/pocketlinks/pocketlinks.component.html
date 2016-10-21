@@ -1,5 +1,5 @@
 <p>
-  pocketlinks works!
+	pocketlinks works!
 </p>
 
 <!--
@@ -13,18 +13,45 @@
 -->
 
 
+
 <p-dataList [value]="entries" [paginator]="true" [rows]="5">
-	<header>
-		Recent Pocket Links
-	</header>
+
+
 	<template let-entry>
-		<div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
-			<div class="ui-grid-row">
-				<a [href]='entry.resolved_url'>
-        {{entry.resolved_title}}
-      </a>
+
+		<div class="ui divided items">
+			<div class="item">
+				<div class="image" *ngIf="entry.has_image == 1">
+					<img [src]="entry.image.src" style="height: 50px; widht: 50px;">
+				</div>
+				<div class="content">
+					<a class="header">{{entry.resolved_title}}</a>
+					<div class="meta">
+						<span class="cinema"><a [href]='entry.resolved_url'>{{entry.resolved_url}}</a></span>
+					</div>
+					<div class="description">
+						<p>{{entry.excerpt}}</p>
+					</div>
+					<div class="extra">
+						<div class="ui right floated primary button">
+							Add
+							<i class="right chevron icon"></i>
+						</div>
+
+						<div *ngIf="entry.tags">
+							<pre>
+							{{ entry.tags | json }}
+							</pre>
+							<!--
+							<div class="ui label" *ngFor="let tagObj of entry.tags"><i class="globe icon"></i> {{tagObj.tag}}</div>
+							-->
+						</div>
+
+					</div>
+				</div>
 			</div>
 		</div>
-	</template>
-</p-dataList>
 
+	</template>
+
+</p-dataList>

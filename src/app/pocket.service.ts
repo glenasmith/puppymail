@@ -27,7 +27,7 @@ export class PocketService {
   // Check out https://getpocket.com/developer/docs/authentication
   constructor(private http: Http, private router: Router) { }
 
-  public mapToFormData(map: Object) : string {
+  public mapToFormData(map: Object): string {
 
     let formData = '';
 
@@ -93,7 +93,7 @@ export class PocketService {
   }
 
 
-  public getFormHeaders() : Headers {
+  public getFormHeaders(): Headers {
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -127,7 +127,7 @@ export class PocketService {
   }
 
 
-  public getRecentArticles(offset: number = 0, count: number = 10) : Promise<PocketEntries>  {
+  public getRecentArticles(offset: number = 0, count: number = 10): Promise<PocketEntries> {
 
 
     let dataJSON = {
@@ -150,16 +150,16 @@ export class PocketService {
           return resp.json();
         }
         throw resp.text;
-      }).map( (json) => {
-          let pocketEntries = new PocketEntries();
-          for (var entry in json.list) {
-              pocketEntries.entries.push(json.list[entry] as PocketEntry);
-          }
-          pocketEntries.entries.sort( (a,b) => {
-              return b.time_added - a.time_added; // sort numerical ascending
-          });
-          console.log(pocketEntries);
-          return pocketEntries;
+      }).map((json) => {
+        let pocketEntries = new PocketEntries();
+        for (var entry in json.list) {
+          pocketEntries.entries.push(json.list[entry] as PocketEntry);
+        }
+        pocketEntries.entries.sort((a, b) => {
+          return b.time_added - a.time_added; // sort numerical ascending
+        });
+        console.log(pocketEntries);
+        return pocketEntries;
       })
       .toPromise();
 
@@ -169,18 +169,29 @@ export class PocketService {
 
 
 export class PocketEntries {
-  public entries : Array<PocketEntry> = [];
+  public entries: Array<PocketEntry> = [];
+  //public tags : {};
 }
 
 export class PocketEntry {
 
-  public excerpt : string;
-  public resolved_title : string;
-  public resolved_url : string;
-  public time_added : number;
-  public item_id : number; 
-  public tags : Array<Object>;
-  public word_count : number;
+  public excerpt: string;
+  public resolved_title: string;
+  public resolved_url: string;
+  public time_added: number;
+  public item_id: number;
+  public tags: Array<Object>;
+  public word_count: number;
+  public getTags(): Array<string> {
+    let tagNames = [];
+    if (this.tags) {
+      for (var entry in this.tags) {
+        tagNames.push(entry['tag']);
+      }
+    }
+    return tagNames;
+
+  }
 
 
 }
