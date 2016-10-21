@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 
 @Component({
   selector: 'app-pocketlinks',
@@ -8,13 +8,18 @@ import { environment } from '../../environments/environment';
 })
 export class PocketlinksComponent implements OnInit {
 
-  myKey : string;
+  entries : Array<PocketEntry> = [];
 
-  constructor() { 
-    this.myKey = environment.pocketKey;
+  constructor(private pocketService : PocketService) { 
+    
   }
 
   ngOnInit() {
+
+      this.pocketService.getRecentArticles().then( (newArticles) => {
+        this.entries = newArticles.entries;
+      });
+
   }
 
 }

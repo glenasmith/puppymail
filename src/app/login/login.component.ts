@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
             this.pocketService.getUserAccessToken(code).then(
               (accessToken) => {
                 console.log(`Username is: ${this.pocketService.userName}`);
+                this.router.navigate(['/pocket']);
               }
             )
         } 
@@ -44,19 +45,7 @@ export class LoginComponent implements OnInit {
         
       });
 
-    // console.log("Starting Login Page. Authenticated is: " + this.loginService.isAuthenticated);
-    // if (this.loginService.isAuthenticated) {
-    //   this.router.navigate(['/home']);
-    // } else {
-    //   this.loginService.login().then((authState) => {
-    //     if (authState && authState.uid) {
-    //       console.log("Login successful for " + authState.auth.displayName);
-    //       this.router.navigate(['/quotes']);
-    //     } else {
-    //       this.errorDuringLogin = true;
-    //     }
-    //   })
-    // };
+  
   }
 
 }

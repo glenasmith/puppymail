@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
+import { PocketGuard } from './pocket.guard';
 // import { LoggedInGuard } from './login.guard';
 
 
 const routes: Routes = [
-    { path: '',  redirectTo: '/login/sendToPocket',  pathMatch: 'full'},
+    { path: '',  redirectTo: '/pocket',  pathMatch: 'full'},
    // { path: 'subscribers', component: SubscribersComponent, canActivate: [LoggedInGuard] },
+    { path: 'pocket', component: PocketlinksComponent, canActivate: [PocketGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'login/:operation', component: LoginComponent }
 
@@ -15,6 +18,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  //providers: [LoggedInGuard]
+  providers: [PocketGuard]
 })
 export class PuppyMailRoutingModule { }

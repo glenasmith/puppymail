@@ -20,22 +20,18 @@ describe('Service: Pocket', () => {
   }));
 
 
-  it('should split POST data into a nice map', function () {
+  it('should split POST data into a nice map', inject([PocketService], (service: PocketService) => {
 
     let postData = 'one=1&two=2&three=3&four=4';
-    let postMap = {};
-
-    let replacer = function (match: string, key: string, joiner: string, value: string) {
-      postMap[key] = value;
-      return match;
-    };
-
-    postData.replace(
-      new RegExp('([^?=&]+)(=([^&]*))?', 'g'), replacer);
+    
+    let postMap = service.postDataToMap(postData);
 
     expect(postMap['one']).toBe('1');
     expect(postMap['two']).toBe('2');  
 
-  });
+    let formData = service.mapToFormData(postMap);
+    expect(formData).toEqual(postData);
+
+  }));
 
 });
