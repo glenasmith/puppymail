@@ -1,0 +1,10 @@
+/* Remove primeng paginated list bullet styling
+
+    The bizarre >>> thing is from:
+    http://stackoverflow.com/questions/36265026/angular-2-innerhtml-styling
+
+ */
+
+:host >>> .ui-datalist-data {
+    list-style-type: none;
+}

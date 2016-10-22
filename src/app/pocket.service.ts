@@ -153,7 +153,17 @@ export class PocketService {
       }).map((json) => {
         let pocketEntries = new PocketEntries();
         for (var entry in json.list) {
-          pocketEntries.entries.push(json.list[entry] as PocketEntry);
+          let nextPocketEntry = json.list[entry]
+
+          let tagNames = [];
+          if (nextPocketEntry.tags) {
+            for (var entry in nextPocketEntry.tags) {
+              tagNames.push(entry);
+            }
+          }
+          nextPocketEntry.tagNames = tagNames;
+
+          pocketEntries.entries.push(nextPocketEntry as PocketEntry);
         }
         pocketEntries.entries.sort((a, b) => {
           return b.time_added - a.time_added; // sort numerical ascending
@@ -182,16 +192,6 @@ export class PocketEntry {
   public item_id: number;
   public tags: Array<Object>;
   public word_count: number;
-  public getTags(): Array<string> {
-    let tagNames = [];
-    if (this.tags) {
-      for (var entry in this.tags) {
-        tagNames.push(entry['tag']);
-      }
-    }
-    return tagNames;
-
-  }
-
+  
 
 }
