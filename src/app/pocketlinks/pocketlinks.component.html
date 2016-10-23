@@ -1,20 +1,6 @@
-<p>
-	pocketlinks works!
-</p>
-
-<!--
-<ul>
-    <li *ngFor="let entry of entries">
-      <a [href]='entry.resolved_url'>
-        {{entry.resolved_title}}
-      </a> 
-    </li>
-</ul>
--->
-
 
 <div class="dataListHolder">
-	<p-dataList [value]="entries" [paginator]="true" [rows]="5">
+	<p-dataList [value]="entries" [paginator]="true" [rows]="rowsToDisplay">
 
 
 		<template let-entry>

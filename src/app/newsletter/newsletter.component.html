@@ -1,21 +1,21 @@
 
-<p-orderList [value]="entries" [responsive]="true" header="The Newsletter">
-	<template let-entry>
+<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter">
+	<template let-newsEntry>
 
 		<div class="ui divided items">
 			<div class="item">
 				<div class="image">
-					<img [src]="entry.image.src" *ngIf="entry.has_image == 1">
-					<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
+					<img [src]="newsEntry.image.src" *ngIf="newsEntry.has_image == 1">
+					<img src="http://p-hold.com/300/200" *ngIf="newsEntry.has_image == 0">
 				</div>
 
 				<div class="content">
-					<a class="header">{{entry.resolved_title}}</a>
+					<a class="header">{{newsEntry.resolved_title}}</a>
 					<div class="meta">
-						<span class="cinema"><a [href]='entry.resolved_url'>{{entry.resolved_url}}</a></span>
+						<span class="cinema"><a [href]='newsEntry.resolved_url'>{{newsEntry.resolved_url}}</a></span>
 					</div>
 					<div class="description">
-						<p>{{entry.excerpt}}</p>
+						<p>{{newsEntry.excerpt}}</p>
 					</div>
 					<div class="extra">
 						<div class="ui right floated primary button">
@@ -23,9 +23,9 @@
 							<i class="right chevron icon"></i>
 						</div>
 
-						<div *ngIf="entry.tags">
+						<div *ngIf="newsEntry.tags">
 
-							<div class="ui label" *ngFor="let nextTag of entry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
+							<div class="ui label" *ngFor="let nextTag of newsEntry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
 
 						</div>
 

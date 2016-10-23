@@ -18,7 +18,10 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/primeng/resources/themes/omega/theme.css" ,
+        "app/resources/icons/css/font-awesome.min.css",
+        "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [],
       "environments": {

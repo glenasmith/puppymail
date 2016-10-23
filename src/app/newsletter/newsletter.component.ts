@@ -9,20 +9,20 @@ import { NewsletterService } from '../newsletter.service';
 })
 export class NewsletterComponent implements OnInit {
 
-  entries: Array<PocketEntry> = [];
+  newsEntries: Array<PocketEntry> = [];
 
   constructor(private newsletterService: NewsletterService) { 
     
   }
 
   ngOnInit() {
-    this.newsletterService.newArticles.subscribe( this.OnNewArticle );
+    this.newsletterService.newArticles.subscribe( this.OnNewArticle.bind(this) );
   }
 
   OnNewArticle(pocketEntry : PocketEntry) {
     console.log("Yey! New Entry", pocketEntry);
     console.log(this);
-    //this.entries.push(pocketEntry);
+    this.newsEntries.push(pocketEntry);
 
   }
 
