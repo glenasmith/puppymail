@@ -21,9 +21,11 @@
 
 			<div class="ui divided items">
 				<div class="item">
-					<div class="image" *ngIf="entry.has_image == 1">
-						<img [src]="entry.image.src">
+					<div class="image">
+						<img [src]="entry.image.src" *ngIf="entry.has_image == 1">
+						<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
 					</div>
+
 					<div class="content">
 						<a class="header">{{entry.resolved_title}}</a>
 						<div class="meta">
@@ -33,17 +35,12 @@
 							<p>{{entry.excerpt}}</p>
 						</div>
 						<div class="extra">
-							<div class="ui right floated primary button">
+							<div class="ui right floated primary button" (click)='OnAddEntry(entry);'>
 								Add
 								<i class="right chevron icon"></i>
 							</div>
 
 							<div *ngIf="entry.tags">
-								<!--
-							<pre>
-							{{ entry.tags | json }}
-							</pre>
-							-->
 
 								<div class="ui label" *ngFor="let nextTag of entry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
 

@@ -9,6 +9,7 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
 import { PocketService } from './pocket.service';
 import { LoginService } from './login.service';
+import { NewsletterService } from './newsletter.service';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -16,7 +17,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
-import { DataListModule } from 'primeng/primeng';
+import { DataListModule, OrderListModule } from 'primeng/primeng';
+import { NewsletterComponent } from './newsletter/newsletter.component';
 
  export const firebaseConfig = {
     apiKey: "AIzaSyCWw0pm52jeu48qR1GVTt41P8yKyXU-WHc",
@@ -39,17 +41,18 @@ export const firebaseAuthConfig = {
     MenuComponent,
     LoginComponent,
     SignupComponent,
-    PocketlinksComponent
+    PocketlinksComponent,
+    NewsletterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    DataListModule,
+    DataListModule, OrderListModule,
     PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],
-  providers: [LoginService, PocketService],
+  providers: [LoginService, PocketService, NewsletterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

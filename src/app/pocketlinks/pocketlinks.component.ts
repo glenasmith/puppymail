@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
+import { NewsletterService } from '../newsletter.service';
 
 @Component({
   selector: 'app-pocketlinks',
@@ -11,7 +12,7 @@ export class PocketlinksComponent implements OnInit {
   entries : Array<PocketEntry> = [];
   rowsToDisplay = 5;
 
-  constructor(private pocketService : PocketService) { 
+  constructor(private pocketService : PocketService, private newsletterService : NewsletterService) { 
     
   }
 
@@ -21,6 +22,10 @@ export class PocketlinksComponent implements OnInit {
         this.entries = newArticles.entries;
       });
 
+  }
+
+  OnAddEntry(entry : PocketEntry) {
+    this.newsletterService.addArticle(entry);
   }
 
 }

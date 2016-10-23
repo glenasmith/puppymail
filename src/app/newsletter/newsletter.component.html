@@ -1,0 +1,43 @@
+
+<p-orderList [value]="entries" [responsive]="true" header="The Newsletter">
+	<template let-entry>
+
+		<div class="ui divided items">
+			<div class="item">
+				<div class="image">
+					<img [src]="entry.image.src" *ngIf="entry.has_image == 1">
+					<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
+				</div>
+
+				<div class="content">
+					<a class="header">{{entry.resolved_title}}</a>
+					<div class="meta">
+						<span class="cinema"><a [href]='entry.resolved_url'>{{entry.resolved_url}}</a></span>
+					</div>
+					<div class="description">
+						<p>{{entry.excerpt}}</p>
+					</div>
+					<div class="extra">
+						<div class="ui right floated primary button">
+							Add
+							<i class="right chevron icon"></i>
+						</div>
+
+						<div *ngIf="entry.tags">
+
+							<div class="ui label" *ngFor="let nextTag of entry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</template>
+</p-orderList>
+
+
+<app-pocketlinks></app-pocketlinks>
