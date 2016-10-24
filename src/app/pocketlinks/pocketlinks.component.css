@@ -8,3 +8,9 @@
 :host >>> .ui-datalist-data {
     list-style-type: none;
 }
+
+:host >>> .ui-datalist-content {
+    border:none;
+}
+
+

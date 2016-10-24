@@ -45,17 +45,11 @@
 									<p>{{newsEntry.excerpt}}</p>
 								</div>
 								<div class="extra">
-									<div class="ui right floated primary button" (click)='OnRemoveEntry(newsEntry);'>
+									<div class="ui right floated blue label" (click)='OnRemoveEntry(newsEntry);'>
 										Remove
 										<i class="right chevron icon"></i>
 									</div>
-
-									<div *ngIf="newsEntry.tags">
-
-										<div class="ui label" *ngFor="let nextTag of newsEntry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
-
-									</div>
-
+	
 								</div>
 							</div>
 						</div>
