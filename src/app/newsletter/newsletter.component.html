@@ -1,43 +1,59 @@
+<p-growl [value]="messages">
 
-<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter">
-	<template let-newsEntry>
+</p-growl>
 
-		<div class="ui divided items">
-			<div class="item">
-				<div class="image">
-					<img [src]="newsEntry.image.src" *ngIf="newsEntry.has_image == 1">
-					<img src="http://p-hold.com/300/200" *ngIf="newsEntry.has_image == 0">
-				</div>
+<div class="ui two column grid">
+	<div class="row">
+		<div class="column">
 
-				<div class="content">
-					<a class="header">{{newsEntry.resolved_title}}</a>
-					<div class="meta">
-						<span class="cinema"><a [href]='newsEntry.resolved_url'>{{newsEntry.resolved_url}}</a></span>
-					</div>
-					<div class="description">
-						<p>{{newsEntry.excerpt}}</p>
-					</div>
-					<div class="extra">
-						<div class="ui right floated primary button">
-							Add
-							<i class="right chevron icon"></i>
+			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter">
+				<template let-newsEntry>
+
+					<div class="ui divided items">
+						<div class="item">
+							<div class="image">
+								<img [src]="newsEntry.image.src" *ngIf="newsEntry.has_image == 1">
+								<img src="http://p-hold.com/300/200" *ngIf="newsEntry.has_image == 0">
+							</div>
+
+							<div class="content">
+								<a class="header">{{newsEntry.resolved_title}}</a>
+								<div class="meta">
+									<span class="cinema"><a [href]='newsEntry.resolved_url'>{{newsEntry.resolved_url}}</a></span>
+								</div>
+								<div class="description">
+									<p>{{newsEntry.excerpt}}</p>
+								</div>
+								<div class="extra">
+									<div class="ui right floated primary button" (click)='OnRemoveEntry(newsEntry);'>
+										Remove
+										<i class="right chevron icon"></i>
+									</div>
+
+									<div *ngIf="newsEntry.tags">
+
+										<div class="ui label" *ngFor="let nextTag of newsEntry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
+
+									</div>
+
+								</div>
+							</div>
 						</div>
-
-						<div *ngIf="newsEntry.tags">
-
-							<div class="ui label" *ngFor="let nextTag of newsEntry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
-
-						</div>
-
 					</div>
-				</div>
-			</div>
+
+
+
+				</template>
+			</p-orderList>
+
+			<button class="compact ui primary button" (click)="OnExportMarkdown()">Export Markdown</button>
+			<button class="compact ui secondary button" (click)="OnExportHtml()">Export HTML</button>
+
+		</div>
+		<div class="column">
+			<app-pocketlinks></app-pocketlinks>
 		</div>
 
+	</div>
 
-
-	</template>
-</p-orderList>
-
-
-<app-pocketlinks></app-pocketlinks>
+</div>

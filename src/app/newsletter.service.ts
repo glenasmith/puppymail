@@ -6,6 +6,8 @@ import { PocketService, PocketEntries, PocketEntry } from './pocket.service';
 export class NewsletterService {
 
   newArticles: Subject<PocketEntry> = new Subject<PocketEntry>();
+  removeArticles: Subject<PocketEntry> = new Subject<PocketEntry>();
+
 
   constructor(private pocketService: PocketService) { }
 
@@ -13,6 +15,11 @@ export class NewsletterService {
   addArticle(article: PocketEntry): void {
     this.newArticles.next(article);
   }
+
+  removeArticle(article: PocketEntry): void {
+    this.removeArticles.next(article);
+  }
+
 
 
 }

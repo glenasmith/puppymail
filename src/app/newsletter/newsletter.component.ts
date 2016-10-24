@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'app-newsletter',
@@ -10,6 +11,7 @@ import { NewsletterService } from '../newsletter.service';
 export class NewsletterComponent implements OnInit {
 
   newsEntries: Array<PocketEntry> = [];
+  messages : Array<Message> = [];
 
   constructor(private newsletterService: NewsletterService) { 
     
@@ -20,10 +22,28 @@ export class NewsletterComponent implements OnInit {
   }
 
   OnNewArticle(pocketEntry : PocketEntry) {
-    console.log("Yey! New Entry", pocketEntry);
+    this.messages.push({severity: 'info', summary: 'Added Item', detail: pocketEntry.resolved_title});
     console.log(this);
     this.newsEntries.push(pocketEntry);
 
+  }
+
+  OnRemoveEntry(entry : PocketEntry) {
+    var index = this.newsEntries.indexOf(entry);
+    if (index > -1) { 
+      this.newsEntries.splice(index, 1);
+      this.messages.push({severity: 'info', summary: 'Removed Item Item', detail: entry.resolved_title});
+    }
+    this.newsletterService.removeArticle(entry);
+  }
+
+
+  OnExportHtml() {
+
+  }
+
+  OnExportMarkdown() {
+    
   }
 
 }

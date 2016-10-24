@@ -17,7 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
-import { DataListModule, OrderListModule } from 'primeng/primeng';
+import { DataListModule, OrderListModule, GrowlModule } from 'primeng/primeng';
 import { NewsletterComponent } from './newsletter/newsletter.component';
 
  export const firebaseConfig = {
@@ -48,7 +48,7 @@ export const firebaseAuthConfig = {
     BrowserModule,
     FormsModule,
     HttpModule,
-    DataListModule, OrderListModule,
+    DataListModule, OrderListModule, GrowlModule,
     PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],

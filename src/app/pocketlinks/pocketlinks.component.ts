@@ -11,6 +11,7 @@ export class PocketlinksComponent implements OnInit {
 
   entries : Array<PocketEntry> = [];
   rowsToDisplay = 5;
+  loaded = false;
 
   constructor(private pocketService : PocketService, private newsletterService : NewsletterService) { 
     
@@ -20,6 +21,7 @@ export class PocketlinksComponent implements OnInit {
 
       this.pocketService.getRecentArticles(0, 50).then( (newArticles) => {
         this.entries = newArticles.entries;
+        this.loaded = true;
       });
 
   }
