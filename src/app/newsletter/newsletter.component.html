@@ -8,7 +8,21 @@
 	</textarea>
 </p-dialog>
 
+<p-dialog header="Export Rendered Content" [(visible)]="displayRenderedDialog" [responsive]="true" [width]="500">
+	
+	<div [innerHTML]="exportContent"></div>
+	
+</p-dialog>
+
 <div class="ui two column grid">
+	<div class="row">
+		<div class="column">
+			<button class="compact ui primary button" (click)="OnExportMarkdown()">Export Markdown</button>
+			<button class="compact ui secondary button" (click)="OnExportHtml()">Export HTML</button>
+			<button class="compact ui secondary button" (click)="OnExportRenderedHtml()">Export Rendered HTML</button>
+		</div>
+
+	</div>
 	<div class="row">
 		<div class="column">
 
@@ -51,9 +65,6 @@
 
 				</template>
 			</p-orderList>
-
-			<button class="compact ui primary button" (click)="OnExportMarkdown()">Export Markdown</button>
-			<button class="compact ui secondary button" (click)="OnExportHtml()">Export HTML</button>
 
 		</div>
 		<div class="column">

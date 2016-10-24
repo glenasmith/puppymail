@@ -10,7 +10,7 @@ import { NewsletterService } from '../newsletter.service';
 export class PocketlinksComponent implements OnInit {
 
   entries : Array<PocketEntry> = [];
-  rowsToDisplay = 5;
+  rowsToDisplay = 3;
   loaded = false;
 
   constructor(private pocketService : PocketService, private newsletterService : NewsletterService) { 

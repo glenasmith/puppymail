@@ -1,4 +1,9 @@
 
+/* Glen's stuff */
+.smallish.text p {
+  font-size: 8px;
+}
+
 /* example page semantic-ui stuff */   
    .hidden.menu {
       display: none;

@@ -1,0 +1,7 @@
+:host >>>.ui-orderlist {
+    height: 100%;
+}
+
+:host >>> .ui-orderlist-list {
+    height: 100%;
+}
