@@ -39,11 +39,16 @@ export class NewsletterComponent implements OnInit {
 
 
   OnExportHtml() {
-
+      let html = '<ul>';
+      this.newsEntries.forEach( (newsEntry : PocketEntry) => {
+          html += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>`;
+      })
+      html += '</ul>'
+      
   }
 
   OnExportMarkdown() {
-    
+
   }
 
 }
