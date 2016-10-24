@@ -12,6 +12,8 @@ export class NewsletterComponent implements OnInit {
 
   newsEntries: Array<PocketEntry> = [];
   messages : Array<Message> = [];
+  exportContent = '';
+  displayExportDialog = false;
 
   constructor(private newsletterService: NewsletterService) { 
     
@@ -39,16 +41,21 @@ export class NewsletterComponent implements OnInit {
 
 
   OnExportHtml() {
-      let html = '<ul>';
+      this.exportContent = '<ul>';
       this.newsEntries.forEach( (newsEntry : PocketEntry) => {
-          html += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>`;
+          this.exportContent += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>\n`;
       })
-      html += '</ul>'
-      
+      this.exportContent += '</ul>';
+      this.displayExportDialog = true;
   }
 
   OnExportMarkdown() {
 
+      this.exportContent = '';
+      this.newsEntries.forEach( (newsEntry : PocketEntry) => {
+          this.exportContent += `* [${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}\n`;
+      })
+      this.displayExportDialog = true;
   }
 
 }

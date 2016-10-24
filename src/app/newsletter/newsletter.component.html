@@ -2,11 +2,17 @@
 
 </p-growl>
 
+<p-dialog header="Export Content" [(visible)]="displayExportDialog" [responsive]="true" [width]="500">
+	<textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20">
+		{{ exportContent }}
+	</textarea>
+</p-dialog>
+
 <div class="ui two column grid">
 	<div class="row">
 		<div class="column">
 
-			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter">
+			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter" >
 				<template let-newsEntry>
 
 					<div class="ui divided items">
