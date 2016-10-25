@@ -159,6 +159,11 @@ export class PocketService {
           if (nextPocketEntry.tags) {
             for (var entry in nextPocketEntry.tags) {
               tagNames.push(entry);
+
+              // keep a handy list of unique tags
+              if (pocketEntries.tags.indexOf(entry) == -1) {
+                pocketEntries.tags.push(entry);
+              }
             }
           }
           nextPocketEntry.tagNames = tagNames;
@@ -180,7 +185,7 @@ export class PocketService {
 
 export class PocketEntries {
   public entries: Array<PocketEntry> = [];
-  //public tags : {};
+  public tags : Array<string> = [];
 }
 
 export class PocketEntry {
