@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   templateUrl: './pocketlinks.component.html',
   styleUrls: ['./pocketlinks.component.css']
 })
-export class PocketlinksComponent implements OnInit {
+export class PocketlinksComponent implements OnInit, AfterViewInit {
 
   tagCategories : Array<string> = []; 
   entries: Array<PocketEntry> = [];
@@ -16,8 +16,7 @@ export class PocketlinksComponent implements OnInit {
   loaded = false;
 
 
-  @ViewChild('searchBox') 
-  searchElement: ElementRef;
+  @ViewChild('searchBox') searchElement: any; //ElementRef;
 
   loading: EventEmitter<boolean> = new EventEmitter<boolean>();
   results: EventEmitter<PocketEntry[]> = new EventEmitter<PocketEntry[]>();
@@ -34,7 +33,15 @@ export class PocketlinksComponent implements OnInit {
       this.loaded = true;
     });
 
-    this.debounceSearch();
+    
+  }
+
+  ngAfterViewInit() {
+
+    //this.debounceSearch();
+    console.log("Search element is...");
+    console.log(this.searchElement);
+    console.log("That is all");
 
   }
 
@@ -43,6 +50,7 @@ export class PocketlinksComponent implements OnInit {
   }
 
   private debounceSearch() {
+
     Observable.fromEvent(this.searchElement.nativeElement, 'keyup')
       .map((e: any) => e.target.value) // extract the value of the input
       .filter((text: string) => text.length > 1) // filter out if empty

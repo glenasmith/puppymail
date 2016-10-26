@@ -1,9 +1,13 @@
-<div class="ui segment" *ngIf="!loaded">
-	<div class="ui active inverted dimmer">
-		<div class="ui text loader">Loading</div>
-	</div>
-	<p></p>
+<div class="ui icon message" *ngIf="!loaded">
+  <i class="notched circle loading icon"></i>
+  <div class="content">
+    <div class="header">
+      Talking to Pocket
+    </div>
+    <p>Just fetching your recent links..</p>
+  </div>
 </div>
+
 
 <div class="dataListHolder" *ngIf="loaded">
 	<p-dataList [value]="entries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">

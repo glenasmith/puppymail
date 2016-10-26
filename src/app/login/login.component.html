@@ -1,12 +1,26 @@
-<h1>
-  Just a sec... Logging you in...
-</h1>
+
+<div class="ui icon message">
+	<i class="notched circle loading icon"></i>
+	<div class="content">
+		<div class="header">
+			Just a sec...
+		</div>
+		<p>We're logging you in.</p>
+	</div>
+</div>
 
 
 <div class="ui negative massive message" *ngIf='errorDuringLogin' style='margin: 6em;'>
-  <div class="header">We had some login issues</div>
-  <ul class="list">
-    <li>Did you grant permission to the application?</li>
-    <li>Did you enter the correct password?</li>
-  </ul>
+	<div class="content">
+		<div class="header">Oh no! We had some login issues</div>
+		<ul class="list">
+			<li>Did you grant permission to the application?</li>
+			<li>Did you enter the correct password?</li>
+		</ul>
+    <p>This info might be helpful in work out what's wrong (or not):</p>
+    <pre>
+        {{ errorMessage | json }}
+    </pre>
+	</div>
+
 </div>
