@@ -10,8 +10,9 @@ import { Observable } from 'rxjs';
 })
 export class PocketlinksComponent implements OnInit, AfterViewInit {
 
-  tagCategories : Array<string> = []; 
+  tagCategories: Array<string> = [];
   entries: Array<PocketEntry> = [];
+  filteredEntries: Array<PocketEntry> = [];
   rowsToDisplay = 3;
   loaded = false;
 
@@ -25,23 +26,36 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
 
   }
 
+  clone(obj: any): any {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
   ngOnInit() {
 
     this.pocketService.getRecentArticles(0, 50).then((newArticles) => {
       this.entries = newArticles.entries;
+      this.filteredEntries = this.clone(this.entries);
       this.tagCategories = newArticles.tags;
       this.loaded = true;
+      this.debounceSearch().subscribe( (searchEntries) => {
+          this.filteredEntries = searchEntries;
+          console.log("Filtered!");
+      }, (error) => {
+        console.log("Eeeekk.. Search error");
+        console.log(error);
+      });
     });
 
-    
+
   }
 
   ngAfterViewInit() {
 
-    //this.debounceSearch();
+
     console.log("Search element is...");
     console.log(this.searchElement);
     console.log("That is all");
+
 
   }
 
@@ -49,35 +63,62 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
     this.newsletterService.addArticle(entry);
   }
 
-  private debounceSearch() {
+  private debounceSearch(): Observable<PocketEntry[]> {
 
-    Observable.fromEvent(this.searchElement.nativeElement, 'keyup')
+    return Observable.fromEvent(this.searchElement.nativeElement, 'keyup')
       .map((e: any) => e.target.value) // extract the value of the input
       .filter((text: string) => text.length > 1) // filter out if empty
       .debounceTime(250) // only once every 250ms
       .do(() => this.loading.next(true)) // enable loading
       // search, discarding old events if new input comes in
       .map((query: string) => {
-        let matches = this.tagCategories.filter( (nextTerm : string) => {
-            return (nextTerm.indexOf(query) > -1);
-        });
 
-        return matches;
-      }).switch();
-      // act on the return of the search
-      // .subscribe(
-      // (results: string[]) => { // on sucesss
-      //   this.loading.next(false);
-      //   this.results.next(results);
-      // },
-      // (err: any) => { // on error
-      //   console.log(err);
-      //   this.loading.next(false);
-      // },
-      // () => { // on completion
-      //   this.loading.next(false);
-      // }
-      // );
+        let filtered: Array<PocketEntry> = [];
+
+        if (!query) {
+          filtered = this.entries;
+          console.log("Nothing to filter on..");
+        } else {
+          filtered = this.entries.filter((nextEntry: PocketEntry) => {
+
+            if (nextEntry.excerpt.indexOf(query) > -1 ||
+              nextEntry.resolved_title.indexOf(query) > -1 ||
+              nextEntry.resolved_url.indexOf(query) > -1) {
+                return true;
+              }
+
+              // crazy inefficient
+              if (nextEntry.tags && JSON.stringify(nextEntry.tags).indexOf(query) > -1) {
+                return true;
+              }
+              return false;
+              
+          });
+
+        }
+
+
+
+        console.log("Matches here");
+        console.log(filtered);
+        console.log("Done matching");
+
+        return filtered;
+      });
+    // act on the return of the search
+    // .subscribe(
+    // (results: string[]) => { // on sucesss
+    //   this.loading.next(false);
+    //   this.results.next(results);
+    // },
+    // (err: any) => { // on error
+    //   console.log(err);
+    //   this.loading.next(false);
+    // },
+    // () => { // on completion
+    //   this.loading.next(false);
+    // }
+    // );
   }
 
 }

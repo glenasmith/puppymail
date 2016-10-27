@@ -9,17 +9,19 @@
 </div>
 
 
-<div class="dataListHolder" *ngIf="loaded">
-	<p-dataList [value]="entries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">
-
-		<header>
-			<div class="ui search" #searchBox>
+<div class="ui search">
 				<div class="ui icon input">
-					<input class="prompt" type="text" placeholder="Filter to tags...">
+					<input class="prompt" type="text" placeholder="Filter to tags..."  #searchBox>
 					<i class="search icon"></i>
 				</div>
 				<div class="results"></div>
 			</div>
+
+<div class="dataListHolder" *ngIf="loaded">
+	<p-dataList [value]="filteredEntries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">
+
+		<header>
+			
 		</header>
 
 
