@@ -13,4 +13,8 @@
     border:none;
 }
 
+:host >>> li {
+    padding: 1em;
+}
+
 

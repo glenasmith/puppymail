@@ -5,3 +5,7 @@
 :host >>> .ui-orderlist-list {
     height: 100%;
 }
+
+:host >>> li {
+    padding: 1em;
+}
