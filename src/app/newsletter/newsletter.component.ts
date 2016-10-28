@@ -16,6 +16,11 @@ export class NewsletterComponent implements OnInit {
   displayRenderedDialog = false;
   displayExportDialog = false;
 
+  displayImages = true;
+  displayLinks = true;
+  displayExcerpts = true;
+  displayTags = true;
+
   constructor(private newsletterService: NewsletterService) {
 
   }
@@ -70,6 +75,26 @@ export class NewsletterComponent implements OnInit {
       this.exportContent += `* [${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}\n`;
     })
     this.displayExportDialog = true;
+  }
+
+  OnImageToggle(status : boolean) {
+    this.displayImages = status;
+  }
+
+  OnLinkToggle(status : boolean) {
+    this.displayLinks = status;
+  }
+
+  OnExcerptToggle(status : boolean) {
+    this.displayExcerpts = status;
+  }
+
+  OnTagsToggle(status : boolean) {
+    this.displayTags = status;
+  }
+
+  OnAddEntry(entry: PocketEntry) {
+    this.newsletterService.addArticle(entry);
   }
 
 

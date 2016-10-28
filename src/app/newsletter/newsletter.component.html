@@ -21,6 +21,21 @@
 			<button class="compact ui secondary button" (click)="OnExportHtml()">Export HTML</button>
 			<button class="compact ui secondary button" (click)="OnExportRenderedHtml()">Export Rendered HTML</button>
 		</div>
+		<div class="column">
+
+			<app-pocketdisplayoptions 
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+
+					(onImageToggle)="OnImageToggle($event)"
+					(onLinkToggle)="OnLinkToggle($event)"
+					(onExcerptToggle)="OnExcerptToggle($event)"
+					(onTagsToggle)="OnTagsToggle($event)"
+					
+					>
+			></app-pocketdisplayoptions>
+
+		</div>
 
 	</div>
 	<div class="row">
@@ -29,40 +44,23 @@
 			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter" >
 				<template let-newsEntry>
 
-					<div class="ui divided items">
-						<div class="item">
-							<div class="image">
-								<img [src]="newsEntry.image.src" *ngIf="newsEntry.has_image == 1">
-								<img src="http://p-hold.com/300/200" *ngIf="newsEntry.has_image == 0">
-							</div>
-
-							<div class="content">
-								<a class="header">{{newsEntry.resolved_title}}</a>
-								<div class="meta">
-									<span class="cinema"><a [href]='newsEntry.resolved_url'>{{newsEntry.resolved_url}}</a></span>
-								</div>
-								<div class="description">
-									<p>{{newsEntry.excerpt}}</p>
-								</div>
-								<div class="extra">
-									<div class="ui right floated blue label" (click)='OnRemoveEntry(newsEntry);'>
-										Remove
-										<i class="right chevron icon"></i>
-									</div>
-	
-								</div>
-							</div>
-						</div>
-					</div>
-
-
+					<app-pocketlink 
+					[entry]="newsEntry" [buttonTitle]="'Remove'"
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+					(onClickedEntry)="OnRemoveEntry($event)"
+					>
+					</app-pocketlink>
 
 				</template>
 			</p-orderList>
 
 		</div>
 		<div class="column">
-			<app-pocketlinks></app-pocketlinks>
+			<app-pocketlinks
+					[displayImages]="displayImages" [displayLinks]="displayLinks" 
+					[displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
+			></app-pocketlinks>
 		</div>
 
 	</div>

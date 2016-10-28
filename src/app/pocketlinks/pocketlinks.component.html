@@ -21,17 +21,7 @@
 	<p-dataList [value]="filteredEntries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">
 
 		<header>
-			<app-pocketdisplayoptions 
-					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
-					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
-
-					(onImageToggle)="OnImageToggle($event)"
-					(onLinkToggle)="OnLinkToggle($event)"
-					(onExcerptToggle)="OnExcerptToggle($event)"
-					(onTagsToggle)="OnTagsToggle($event)"
-					
-					>
-			></app-pocketdisplayoptions>
+			
 		</header>
 
 

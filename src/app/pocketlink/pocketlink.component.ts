@@ -26,9 +26,6 @@ export class PocketlinkComponent implements OnInit {
   ngOnInit() {
   }
 
-  OnAddEntry(entry: PocketEntry) {
-    this.newsletterService.addArticle(entry);
-  }
 
   OnClickEntry(entry: PocketEntry) {
     this.onClickedEntry.next(entry);

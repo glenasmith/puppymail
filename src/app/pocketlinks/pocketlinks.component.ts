@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, EventEmitter, ElementRef, ViewChild, Input, Output } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { Observable } from 'rxjs';
@@ -16,10 +16,10 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
   rowsToDisplay = 3;
   loaded = false;
 
-  displayImages = true;
-  displayLinks = true;
-  displayExcerpts = true;
-  displayTags = true;
+  @Input() displayImages = true;
+  @Input() displayLinks = true;
+  @Input() displayExcerpts = true;
+  @Input() displayTags = true;
 
 
   @ViewChild('searchBox') searchElement: any; //ElementRef;
@@ -64,26 +64,11 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
 
   }
 
-  OnImageToggle(status : boolean) {
-    this.displayImages = status;
-  }
-
-  OnLinkToggle(status : boolean) {
-    this.displayLinks = status;
-  }
-
-  OnExcerptToggle(status : boolean) {
-    this.displayExcerpts = status;
-  }
-
-  OnTagsToggle(status : boolean) {
-    this.displayTags = status;
-  }
-
   OnAddEntry(entry: PocketEntry) {
     this.newsletterService.addArticle(entry);
   }
 
+  
 
   private debounceSearch(): Observable<PocketEntry[]> {
 
