@@ -24,12 +24,11 @@
 			<app-pocketdisplayoptions 
 					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
 					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+
 					(onImageToggle)="OnImageToggle($event)"
 					(onLinkToggle)="OnLinkToggle($event)"
 					(onExcerptToggle)="OnExcerptToggle($event)"
 					(onTagsToggle)="OnTagsToggle($event)"
-
-					
 					
 					>
 			></app-pocketdisplayoptions>
@@ -39,9 +38,11 @@
 		<template let-entry>
 
 			<app-pocketlink 
-					[entry]="entry"
+					[entry]="entry" [buttonTitle]="'Add'"
 					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
-					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags">
+					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+					(onClickedEntry)="OnAddEntry($event)"
+					>
 			</app-pocketlink>
 
 		</template>

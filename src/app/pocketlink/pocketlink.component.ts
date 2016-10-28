@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { Observable } from 'rxjs';
@@ -17,6 +17,9 @@ export class PocketlinkComponent implements OnInit {
   @Input() isLinkOn = true;
   @Input() isExcerptOn = true;
   @Input() isTagsOn = true;
+  @Input() buttonTitle = "Click";
+
+  @Output() onClickedEntry = new EventEmitter<PocketEntry>();
 
   constructor(private newsletterService : NewsletterService) { }
 
@@ -25,6 +28,10 @@ export class PocketlinkComponent implements OnInit {
 
   OnAddEntry(entry: PocketEntry) {
     this.newsletterService.addArticle(entry);
+  }
+
+  OnClickEntry(entry: PocketEntry) {
+    this.onClickedEntry.next(entry);
   }
 
 

@@ -80,6 +80,9 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
     this.displayTags = status;
   }
 
+  OnAddEntry(entry: PocketEntry) {
+    this.newsletterService.addArticle(entry);
+  }
 
 
   private debounceSearch(): Observable<PocketEntry[]> {
