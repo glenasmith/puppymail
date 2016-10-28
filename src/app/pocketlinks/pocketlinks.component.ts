@@ -79,16 +79,17 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
           filtered = this.entries;
           console.log("Nothing to filter on..");
         } else {
+          let lowQuery = query.toLowerCase();
           filtered = this.entries.filter((nextEntry: PocketEntry) => {
 
-            if (nextEntry.excerpt.indexOf(query) > -1 ||
-              nextEntry.resolved_title.indexOf(query) > -1 ||
-              nextEntry.resolved_url.indexOf(query) > -1) {
+            if (nextEntry.excerpt.toLowerCase().indexOf(lowQuery) > -1 ||
+              nextEntry.resolved_title.toLowerCase().indexOf(lowQuery) > -1 ||
+              nextEntry.resolved_url.toLowerCase().indexOf(lowQuery) > -1) {
                 return true;
               }
 
               // crazy inefficient
-              if (nextEntry.tags && JSON.stringify(nextEntry.tags).indexOf(query) > -1) {
+              if (nextEntry.tags && JSON.stringify(nextEntry.tags).toLowerCase().indexOf(lowQuery) > -1) {
                 return true;
               }
               return false;
