@@ -11,49 +11,51 @@ import { Message } from 'primeng/primeng';
 export class NewsletterComponent implements OnInit {
 
   newsEntries: Array<PocketEntry> = [];
-  messages : Array<Message> = [];
+  messages: Array<Message> = [];
   exportContent = '';
   displayRenderedDialog = false;
   displayExportDialog = false;
 
-  constructor(private newsletterService: NewsletterService) { 
-    
+  constructor(private newsletterService: NewsletterService) {
+
   }
 
   ngOnInit() {
-    this.newsletterService.newArticles.subscribe( this.OnNewArticle.bind(this) );
+    this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
   }
 
-  OnNewArticle(pocketEntry : PocketEntry) {
-    this.messages.push({severity: 'info', summary: 'Added Item', detail: pocketEntry.resolved_title});
-    console.log(this);
-    this.newsEntries.push(pocketEntry);
-
-  }
-
-  OnRemoveEntry(entry : PocketEntry) {
+  OnNewArticle(entry: PocketEntry) {
     var index = this.newsEntries.indexOf(entry);
-    if (index > -1) { 
+    if (index == -1) {
+      this.messages.push({ severity: 'info', summary: 'Added Item', detail: entry.resolved_title });
+      console.log(this);
+      this.newsEntries.push(entry);
+    }
+  }
+
+  OnRemoveEntry(entry: PocketEntry) {
+    var index = this.newsEntries.indexOf(entry);
+    if (index > -1) {
       this.newsEntries.splice(index, 1);
-      this.messages.push({severity: 'info', summary: 'Removed Item Item', detail: entry.resolved_title});
+      this.messages.push({ severity: 'info', summary: 'Removed Item Item', detail: entry.resolved_title });
     }
     this.newsletterService.removeArticle(entry);
   }
 
 
-  private getHtmlVersion() : string {
+  private getHtmlVersion(): string {
 
-      let html = '<ul>';
-      this.newsEntries.forEach( (newsEntry : PocketEntry) => {
-          html += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>\n`;
-      })
-      html += '</ul>';
-      return html;
+    let html = '<ul>';
+    this.newsEntries.forEach((newsEntry: PocketEntry) => {
+      html += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>\n`;
+    })
+    html += '</ul>';
+    return html;
   }
 
   OnExportHtml() {
-      this.exportContent = this.getHtmlVersion();
-      this.displayExportDialog = true;
+    this.exportContent = this.getHtmlVersion();
+    this.displayExportDialog = true;
   }
 
   OnExportRenderedHtml() {
@@ -63,13 +65,13 @@ export class NewsletterComponent implements OnInit {
 
   OnExportMarkdown() {
 
-      this.exportContent = '';
-      this.newsEntries.forEach( (newsEntry : PocketEntry) => {
-          this.exportContent += `* [${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}\n`;
-      })
-      this.displayExportDialog = true;
+    this.exportContent = '';
+    this.newsEntries.forEach((newsEntry: PocketEntry) => {
+      this.exportContent += `* [${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}\n`;
+    })
+    this.displayExportDialog = true;
   }
 
-  
+
 
 }

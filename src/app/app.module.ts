@@ -19,6 +19,8 @@ import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
 import { DataListModule, OrderListModule, GrowlModule, DialogModule } from 'primeng/primeng';
 import { NewsletterComponent } from './newsletter/newsletter.component';
+import { PocketlinkComponent } from './pocketlink/pocketlink.component';
+import { PocketdisplayoptionsComponent } from './pocketdisplayoptions/pocketdisplayoptions.component';
 
  export const firebaseConfig = {
     apiKey: "AIzaSyCWw0pm52jeu48qR1GVTt41P8yKyXU-WHc",
@@ -42,7 +44,9 @@ export const firebaseAuthConfig = {
     LoginComponent,
     SignupComponent,
     PocketlinksComponent,
-    NewsletterComponent
+    NewsletterComponent,
+    PocketlinkComponent,
+    PocketdisplayoptionsComponent
   ],
   imports: [
     BrowserModule,

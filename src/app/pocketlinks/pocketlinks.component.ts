@@ -16,6 +16,11 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
   rowsToDisplay = 3;
   loaded = false;
 
+  displayImages = true;
+  displayLinks = true;
+  displayExcerpts = true;
+  displayTags = true;
+
 
   @ViewChild('searchBox') searchElement: any; //ElementRef;
 
@@ -37,9 +42,9 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
       this.filteredEntries = this.clone(this.entries);
       this.tagCategories = newArticles.tags;
       this.loaded = true;
-      this.debounceSearch().subscribe( (searchEntries) => {
-          this.filteredEntries = searchEntries;
-          console.log("Filtered!");
+      this.debounceSearch().subscribe((searchEntries) => {
+        this.filteredEntries = searchEntries;
+        console.log("Filtered!");
       }, (error) => {
         console.log("Eeeekk.. Search error");
         console.log(error);
@@ -59,9 +64,23 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
 
   }
 
-  OnAddEntry(entry: PocketEntry) {
-    this.newsletterService.addArticle(entry);
+  OnImageToggle(status : boolean) {
+    this.displayImages = status;
   }
+
+  OnLinkToggle(status : boolean) {
+    this.displayLinks = status;
+  }
+
+  OnExcerptToggle(status : boolean) {
+    this.displayExcerpts = status;
+  }
+
+  OnTagsToggle(status : boolean) {
+    this.displayTags = status;
+  }
+
+
 
   private debounceSearch(): Observable<PocketEntry[]> {
 
@@ -87,15 +106,15 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
             if (nextEntry.excerpt.toLowerCase().indexOf(lowQuery) > -1 ||
               nextEntry.resolved_title.toLowerCase().indexOf(lowQuery) > -1 ||
               nextEntry.resolved_url.toLowerCase().indexOf(lowQuery) > -1) {
-                return true;
-              }
+              return true;
+            }
 
-              // crazy inefficient
-              if (nextEntry.tags && JSON.stringify(nextEntry.tags).toLowerCase().indexOf(lowQuery) > -1) {
-                return true;
-              }
-              return false;
-              
+            // crazy inefficient
+            if (nextEntry.tags && JSON.stringify(nextEntry.tags).toLowerCase().indexOf(lowQuery) > -1) {
+              return true;
+            }
+            return false;
+
           });
 
         }

@@ -21,43 +21,28 @@
 	<p-dataList [value]="filteredEntries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">
 
 		<header>
-			
+			<app-pocketdisplayoptions 
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+					(onImageToggle)="OnImageToggle($event)"
+					(onLinkToggle)="OnLinkToggle($event)"
+					(onExcerptToggle)="OnExcerptToggle($event)"
+					(onTagsToggle)="OnTagsToggle($event)"
+
+					
+					
+					>
+			></app-pocketdisplayoptions>
 		</header>
 
 
 		<template let-entry>
 
-			<div class="ui divided items">
-				<div class="item">
-					<div class="image">
-						<img [src]="entry.image.src" *ngIf="entry.has_image == 1">
-						<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
-					</div>
-
-					<div class="content">
-						<a class="header">{{entry.resolved_title}}</a>
-						<div class="meta">
-							<span class="cinema"><a [href]='entry.resolved_url'>{{entry.resolved_url}}</a></span>
-						</div>
-						<div class="description">
-							<p>{{entry.excerpt}}</p>
-						</div>
-						<div class="extra">
-							<div class="ui right floated blue label" (click)='OnAddEntry(entry);'>
-								Add
-								<i class="right chevron icon"></i>
-							</div>
-
-							<div *ngIf="entry.tags">
-
-								<div class="ui label" *ngFor="let nextTag of entry.tagNames"><i class="globe icon"></i> {{nextTag}}</div>
-
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
+			<app-pocketlink 
+					[entry]="entry"
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags">
+			</app-pocketlink>
 
 		</template>
 
