@@ -67,11 +67,12 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
 
     return Observable.fromEvent(this.searchElement.nativeElement, 'keyup')
       .map((e: any) => e.target.value) // extract the value of the input
-      .filter((text: string) => text.length > 1) // filter out if empty
       .debounceTime(250) // only once every 250ms
       .do(() => this.loading.next(true)) // enable loading
       // search, discarding old events if new input comes in
       .map((query: string) => {
+
+        query = query.trim();
 
         let filtered: Array<PocketEntry> = [];
 
@@ -80,6 +81,7 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
           console.log("Nothing to filter on..");
         } else {
           let lowQuery = query.toLowerCase();
+          console.log(`Query is [${lowQuery}]`);
           filtered = this.entries.filter((nextEntry: PocketEntry) => {
 
             if (nextEntry.excerpt.toLowerCase().indexOf(lowQuery) > -1 ||
