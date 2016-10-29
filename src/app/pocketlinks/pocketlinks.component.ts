@@ -24,7 +24,6 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
 
   @ViewChild('searchBox') searchElement: any; //ElementRef;
 
-  loading: EventEmitter<boolean> = new EventEmitter<boolean>();
   results: EventEmitter<PocketEntry[]> = new EventEmitter<PocketEntry[]>();
 
   constructor(private pocketService: PocketService, private newsletterService: NewsletterService) {
@@ -44,23 +43,19 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
       this.loaded = true;
       this.debounceSearch().subscribe((searchEntries) => {
         this.filteredEntries = searchEntries;
-        console.log("Filtered!");
       }, (error) => {
         console.log("Eeeekk.. Search error");
         console.log(error);
       });
     });
 
-
   }
 
   ngAfterViewInit() {
 
-
     console.log("Search element is...");
     console.log(this.searchElement);
     console.log("That is all");
-
 
   }
 
@@ -75,7 +70,6 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
     return Observable.fromEvent(this.searchElement.nativeElement, 'keyup')
       .map((e: any) => e.target.value) // extract the value of the input
       .debounceTime(250) // only once every 250ms
-      .do(() => this.loading.next(true)) // enable loading
       // search, discarding old events if new input comes in
       .map((query: string) => {
 
@@ -106,12 +100,6 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
           });
 
         }
-
-
-
-        console.log("Matches here");
-        console.log(filtered);
-        console.log("Done matching");
 
         return filtered;
       });
