@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
+import { DatabaseService } from '../database.service';
 import { Message } from 'primeng/primeng';
+import { FirebaseAuthState } from 'angularfire2';
 
 @Component({
   selector: 'app-newsletter',
@@ -21,7 +23,7 @@ export class NewsletterComponent implements OnInit {
   displayExcerpts = true;
   displayTags = true;
 
-  constructor(private newsletterService: NewsletterService) {
+  constructor(private newsletterService: NewsletterService, private databaseService : DatabaseService) {
 
   }
 
@@ -45,6 +47,24 @@ export class NewsletterComponent implements OnInit {
       this.messages.push({ severity: 'info', summary: 'Removed Item Item', detail: entry.resolved_title });
     }
     this.newsletterService.removeArticle(entry);
+  }
+
+
+  private invokeSave() {
+    console.log("Saving entries");
+    this.databaseService.saveNewsletter("sample", this.newsEntries);
+
+  }
+
+  OnSave() {
+    //if (!this.databaseService.IsLoggedIn) {
+      this.databaseService.login().then( (fas : FirebaseAuthState) => {
+          console.log("Login successful", fas.auth.displayName);
+          this.invokeSave();
+      });
+    //} else {
+    //  this.invokeSave();
+    //}
   }
 
 

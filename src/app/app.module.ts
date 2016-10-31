@@ -10,6 +10,7 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { PocketService } from './pocket.service';
 import { LoginService } from './login.service';
 import { NewsletterService } from './newsletter.service';
+import { DatabaseService } from './database.service';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -33,8 +34,8 @@ import { PocketdisplayoptionsComponent } from './pocketdisplayoptions/pocketdisp
 
 
 export const firebaseAuthConfig = {
-  provider: AuthProviders.Google,
-  method: AuthMethods.Popup
+  provider: AuthProviders.Custom,
+  method: AuthMethods.CustomToken
 }
 
 @NgModule({
@@ -56,7 +57,8 @@ export const firebaseAuthConfig = {
     PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],
-  providers: [LoginService, PocketService, NewsletterService],
+  providers: [LoginService, PocketService, 
+              NewsletterService, DatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

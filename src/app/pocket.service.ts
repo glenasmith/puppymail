@@ -21,6 +21,7 @@ export class PocketService {
   userName: string = '';
   code: string = '';
   accessToken: string = '';
+  firebaseToken : string = '';
 
   private POCKET_RETURN_URL = environment.baseAppUrl + '/login/backFromPocket';
 
@@ -119,6 +120,7 @@ export class PocketService {
           console.log(returnData);
           this.accessToken = returnData.access_token
           this.userName = decodeURIComponent(returnData.username);
+          this.firebaseToken = returnData.fbToken;
           return this.accessToken;
         }
         throw resp.text;
