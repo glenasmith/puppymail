@@ -3,7 +3,7 @@ import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
 import { Message } from 'primeng/primeng';
-import { FirebaseAuthState } from 'angularfire2';
+import { FirebaseAuthState, FirebaseListObservable  } from 'angularfire2';
 
 @Component({
   selector: 'app-newsletter',
@@ -29,6 +29,10 @@ export class NewsletterComponent implements OnInit {
 
   ngOnInit() {
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
+    this.databaseService.login().then( (fas : FirebaseAuthState) => {
+          console.log("Login successful", fas.uid);
+          this.messages.push({ severity: 'info', summary: 'Firebase Login', detail: `Welcome ${fas.uid}`});
+      });
   }
 
   OnNewArticle(entry: PocketEntry) {
@@ -51,20 +55,36 @@ export class NewsletterComponent implements OnInit {
 
 
   private invokeSave() {
-    console.log("Saving entries");
-    this.databaseService.saveNewsletter("sample", this.newsEntries);
+    
+  }
 
+  private checkLogin() {
+    if (!this.databaseService.IsLoggedIn) {
+      this.messages.push({ severity: 'info', summary: 'Login Failed', detail: "Couldn't login to Firebase" });
+      throw "Unable to login to Firebase Db";
+    } 
   }
 
   OnSave() {
-    //if (!this.databaseService.IsLoggedIn) {
-      this.databaseService.login().then( (fas : FirebaseAuthState) => {
-          console.log("Login successful", fas.auth.displayName);
-          this.invokeSave();
-      });
-    //} else {
-    //  this.invokeSave();
-    //}
+    this.checkLogin();
+    console.log("Saving newsletter");
+    this.databaseService.saveNewsletter("sample", this.newsEntries);
+    this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
+  }
+  
+
+  OnLoad() {
+    this.checkLogin();
+    console.log("Loading newsletter");  
+    this.databaseService.loadNewsletter("sample").subscribe ( (loadedEntries) => {
+      console.log(loadedEntries);
+      this.newsEntries = loadedEntries;
+      this.messages.push({ severity: 'info', summary: 'Newsletter Loaded', detail: `Loaded ${this.newsEntries.length} item(s)` });
+    }, (error) => {
+      console.log(error);
+      this.messages.push({ severity: 'info', summary: 'Load Failed', detail: `${error}` });
+    });
+
   }
 
 

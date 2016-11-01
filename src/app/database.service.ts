@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 import { PocketService, PocketEntries, PocketEntry } from './pocket.service';
 
 
@@ -52,10 +52,10 @@ export class DatabaseService {
     // TODO Retrieve list of keys
   }
 
-  loadNewsletter(name : string) : Array<PocketEntry> {
-    this.checkLogin();
-    //TODO Retrieve existing newsletter
-    return [];
+  loadNewsletter(name : string) : FirebaseListObservable<Array<PocketEntry>> {
+    let path = this.getDbKeyForUser() + name;
+    console.log("Attempting to load from: ", path);
+    return this.af.database.list(path);
   }
 
 
