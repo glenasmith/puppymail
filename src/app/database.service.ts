@@ -42,17 +42,24 @@ export class DatabaseService {
 
     let path = this.getDbKeyForUser() + name;
     console.log("Attempting to save to: ", path);
-    const itemObservable = this.af.database.object(path);
-    itemObservable.set(data);
-
+    const itemObservable = this.af.database.list(path);
+    itemObservable.remove();
+    itemObservable.push(data);
   }
 
-  listNewsletters() {
-    this.checkLogin();
+  listNewsletters() : FirebaseListObservable<Array<string>> {
+    //this.checkLogin();
+    
+    let path = this.getDbKeyForUser();
     // TODO Retrieve list of keys
+    return this.af.database.list(path, {
+      query: {
+        orderByKey: true,
+      }
+    });
   }
 
-  loadNewsletter(name : string) : FirebaseListObservable<Array<PocketEntry>> {
+  loadNewsletter(name : string) : FirebaseListObservable<Array<Array<PocketEntry>>> {
     let path = this.getDbKeyForUser() + name;
     console.log("Attempting to load from: ", path);
     return this.af.database.list(path);

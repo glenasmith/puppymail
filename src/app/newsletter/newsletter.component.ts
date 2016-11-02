@@ -54,10 +54,6 @@ export class NewsletterComponent implements OnInit {
   }
 
 
-  private invokeSave() {
-    
-  }
-
   private checkLogin() {
     if (!this.databaseService.IsLoggedIn) {
       this.messages.push({ severity: 'info', summary: 'Login Failed', detail: "Couldn't login to Firebase" });
@@ -78,13 +74,19 @@ export class NewsletterComponent implements OnInit {
     console.log("Loading newsletter");  
     this.databaseService.loadNewsletter("sample").subscribe ( (loadedEntries) => {
       console.log(loadedEntries);
-      this.newsEntries = loadedEntries;
+      this.newsEntries = loadedEntries[0];
       this.messages.push({ severity: 'info', summary: 'Newsletter Loaded', detail: `Loaded ${this.newsEntries.length} item(s)` });
     }, (error) => {
       console.log(error);
       this.messages.push({ severity: 'info', summary: 'Load Failed', detail: `${error}` });
     });
 
+  }
+
+  OnList() {
+    this.checkLogin();
+    console.log("Listing newsletters");
+    this.databaseService.listNewsletters().subscribe( result => console.log(result));
   }
 
 
