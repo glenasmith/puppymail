@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 import { PocketService, PocketEntries, PocketEntry } from './pocket.service';
@@ -47,15 +48,22 @@ export class DatabaseService {
     itemObservable.push(data);
   }
 
-  listNewsletters() : FirebaseListObservable<Array<string>> {
+  listNewsletters() : Observable<Array<string>> {
     //this.checkLogin();
     
     let path = this.getDbKeyForUser();
-    // TODO Retrieve list of keys
+
     return this.af.database.list(path, {
       query: {
         orderByKey: true,
       }
+    }).map(listOfNews => {
+        let names = [];
+        listOfNews.forEach( (nextItem) => {
+          let name = nextItem['$key'];
+          names.push(name);
+        } );
+        return names;
     });
   }
 
