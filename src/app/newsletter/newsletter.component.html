@@ -9,9 +9,9 @@
 </p-dialog>
 
 <p-dialog header="Export Rendered Content" [(visible)]="displayRenderedDialog" [responsive]="true" [width]="500">
-	
+
 	<div [innerHTML]="exportContent"></div>
-	
+
 </p-dialog>
 
 <div class="ui two column grid">
@@ -22,19 +22,28 @@
 			<button class="compact ui secondary button" (click)="OnExportRenderedHtml()">Export Rendered HTML</button>
 			<button class="compact ui secondary button" (click)="OnSave()">Save</button>
 			<button class="compact ui secondary button" (click)="OnLoad()">Load</button>
+      <p-autoComplete [(ngModel)]="newsletterToLoad" [suggestions]="newsletters" (completeMethod)="OnAutoComplete($event)" [size]="30"
+                      [minLength]="1" placeholder="Start typing name" [dropdown]="true">
+        <template let-news>
+          <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{news}}</div>
+          </div>
+        </template>
+      </p-autoComplete>
+
 			<button class="compact ui secondary button" (click)="OnList()">List</button>
 		</div>
 		<div class="column">
 
-			<app-pocketdisplayoptions 
-					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+			<app-pocketdisplayoptions
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks"
 					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
 
 					(onImageToggle)="OnImageToggle($event)"
 					(onLinkToggle)="OnLinkToggle($event)"
 					(onExcerptToggle)="OnExcerptToggle($event)"
 					(onTagsToggle)="OnTagsToggle($event)"
-					
+
 					>
 			></app-pocketdisplayoptions>
 
@@ -47,9 +56,9 @@
 			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter" >
 				<template let-newsEntry>
 
-					<app-pocketlink 
+					<app-pocketlink
 					[entry]="newsEntry" [buttonTitle]="'Remove'"
-					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks"
 					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
 					(onClickedEntry)="OnRemoveEntry($event)"
 					>
@@ -61,7 +70,7 @@
 		</div>
 		<div class="column">
 			<app-pocketlinks
-					[displayImages]="displayImages" [displayLinks]="displayLinks" 
+					[displayImages]="displayImages" [displayLinks]="displayLinks"
 					[displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
 			></app-pocketlinks>
 		</div>

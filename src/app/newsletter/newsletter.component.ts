@@ -14,6 +14,10 @@ export class NewsletterComponent implements OnInit {
 
   newsEntries: Array<PocketEntry> = [];
   messages: Array<Message> = [];
+
+  newsletters: Array<string> = [];
+  newsletterToLoad = '';
+
   exportContent = '';
   displayRenderedDialog = false;
   displayExportDialog = false;
@@ -32,6 +36,9 @@ export class NewsletterComponent implements OnInit {
     this.databaseService.login().then( (fas : FirebaseAuthState) => {
           console.log("Login successful", fas.uid);
           this.messages.push({ severity: 'info', summary: 'Firebase Login', detail: `Welcome ${fas.uid}`});
+          this.databaseService.listNewsletters().subscribe(
+            (savedNewsletters : string[]) => this.newsletters = savedNewsletters
+          );
       });
   }
 
@@ -58,7 +65,7 @@ export class NewsletterComponent implements OnInit {
     if (!this.databaseService.IsLoggedIn) {
       this.messages.push({ severity: 'info', summary: 'Login Failed', detail: "Couldn't login to Firebase" });
       throw "Unable to login to Firebase Db";
-    } 
+    }
   }
 
   OnSave() {
@@ -67,20 +74,29 @@ export class NewsletterComponent implements OnInit {
     this.databaseService.saveNewsletter("sample", this.newsEntries);
     this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
   }
-  
 
-  OnLoad() {
+
+
+
+  LoadNewsletter(nameToLoad) {
     this.checkLogin();
-    console.log("Loading newsletter");  
-    this.databaseService.loadNewsletter("sample").subscribe ( (loadedEntries) => {
+    console.log(`Loading newsletter ${nameToLoad}`);
+    this.databaseService.loadNewsletter(nameToLoad).subscribe ( (loadedEntries) => {
       console.log(loadedEntries);
       this.newsEntries = loadedEntries[0];
-      this.messages.push({ severity: 'info', summary: 'Newsletter Loaded', detail: `Loaded ${this.newsEntries.length} item(s)` });
+      this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
     }, (error) => {
       console.log(error);
-      this.messages.push({ severity: 'info', summary: 'Load Failed', detail: `${error}` });
+      this.messages.push({ severity: 'info', summary: `${nameToLoad} Load Failed`, detail: `${error}` });
     });
+  }
 
+  OnAutoComplete(event) {
+    this.LoadNewsletter(event.query);
+  }
+
+  OnLoad() {
+    this.LoadNewsletter('sample');
   }
 
   OnList() {
