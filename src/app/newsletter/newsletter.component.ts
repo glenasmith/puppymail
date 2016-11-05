@@ -91,8 +91,8 @@ export class NewsletterComponent implements OnInit {
     });
   }
 
-  OnAutoComplete(event) {
-    this.LoadNewsletter(event.query);
+  OnChange(event) {
+    this.LoadNewsletter(this.newsletterToLoad);
   }
 
   OnLoad() {

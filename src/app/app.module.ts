@@ -18,7 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 
-import { DataListModule, OrderListModule, GrowlModule, DialogModule, AutoCompleteModule } from 'primeng/primeng';
+import { DataListModule, OrderListModule, GrowlModule, DialogModule, AutoCompleteModule, DropdownModule } from 'primeng/primeng';
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { PocketlinkComponent } from './pocketlink/pocketlink.component';
 import { PocketdisplayoptionsComponent } from './pocketdisplayoptions/pocketdisplayoptions.component';
@@ -53,7 +53,7 @@ export const firebaseAuthConfig = {
     BrowserModule,
     FormsModule,
     HttpModule,
-    DataListModule, OrderListModule, GrowlModule, DialogModule,  AutoCompleteModule,
+    DataListModule, OrderListModule, GrowlModule, DialogModule,  AutoCompleteModule, DropdownModule,
     PuppyMailRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
   ],

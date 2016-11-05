@@ -22,16 +22,10 @@
 			<button class="compact ui secondary button" (click)="OnExportRenderedHtml()">Export Rendered HTML</button>
 			<button class="compact ui secondary button" (click)="OnSave()">Save</button>
 			<button class="compact ui secondary button" (click)="OnLoad()">Load</button>
-      <p-autoComplete [(ngModel)]="newsletterToLoad" [suggestions]="newsletters" (completeMethod)="OnAutoComplete($event)" [size]="30"
-                      [minLength]="1" placeholder="Start typing name" [dropdown]="true">
-        <template let-news>
-          <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{news}}</div>
-          </div>
-        </template>
-      </p-autoComplete>
 
-			<button class="compact ui secondary button" (click)="OnList()">List</button>
+			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" filter="true" (onChange)='OnChange($event)'></p-dropdown>
+
+      			<button class="compact ui secondary button" (click)="OnList()">List</button>
 		</div>
 		<div class="column">
 
