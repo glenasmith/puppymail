@@ -3,7 +3,14 @@ import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
 import { Message } from 'primeng/primeng';
-import { FirebaseAuthState, FirebaseListObservable  } from 'angularfire2';
+import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
+
+interface SelectItem {
+
+  label: string
+  value: string
+
+}
 
 @Component({
   selector: 'app-newsletter',
@@ -15,7 +22,7 @@ export class NewsletterComponent implements OnInit {
   newsEntries: Array<PocketEntry> = [];
   messages: Array<Message> = [];
 
-  newsletters: Array<string> = [];
+  newsletters: Array<SelectItem> = [];
   newsletterToLoad = '';
 
   exportContent = '';
@@ -27,19 +34,23 @@ export class NewsletterComponent implements OnInit {
   displayExcerpts = true;
   displayTags = true;
 
-  constructor(private newsletterService: NewsletterService, private databaseService : DatabaseService) {
+  constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService) {
 
   }
 
   ngOnInit() {
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
-    this.databaseService.login().then( (fas : FirebaseAuthState) => {
-          console.log("Login successful", fas.uid);
-          this.messages.push({ severity: 'info', summary: 'Firebase Login', detail: `Welcome ${fas.uid}`});
-          this.databaseService.listNewsletters().subscribe(
-            (savedNewsletters : string[]) => this.newsletters = savedNewsletters
-          );
-      });
+    this.databaseService.login().then((fas: FirebaseAuthState) => {
+      console.log("Login successful", fas.uid);
+      this.messages.push({ severity: 'info', summary: 'Firebase Login', detail: `Welcome ${fas.uid}` });
+      this.databaseService.listNewsletters().subscribe(
+        (savedNewsletters: string[]) => {
+
+          console.log("Fetched newsletters..", savedNewsletters);
+          savedNewsletters.forEach(next => this.newsletters.push({ label: next, value: next }));
+          //this.newsletters = savedNewsletters
+        });
+    });
   }
 
   OnNewArticle(entry: PocketEntry) {
@@ -81,12 +92,16 @@ export class NewsletterComponent implements OnInit {
   LoadNewsletter(nameToLoad) {
     this.checkLogin();
     console.log(`Loading newsletter ${nameToLoad}`);
-    this.databaseService.loadNewsletter(nameToLoad).subscribe ( (loadedEntries) => {
-      console.log(loadedEntries);
-      this.newsEntries = loadedEntries[0];
-      this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
+    this.databaseService.loadNewsletter(nameToLoad).subscribe((loadedEntries) => {
+      console.log("Loaded entries: ", loadedEntries);
+      if (loadedEntries && loadedEntries.length) {
+        this.newsEntries = loadedEntries[0];
+        this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
+      } else {
+        this.messages.push({ severity: 'warn', summary: `${nameToLoad} Loaded`, detail: `But no entries were found?` });
+      }
     }, (error) => {
-      console.log(error);
+      console.log(`Failed to load ${nameToLoad} newsletter`, error);
       this.messages.push({ severity: 'info', summary: `${nameToLoad} Load Failed`, detail: `${error}` });
     });
   }
@@ -102,7 +117,7 @@ export class NewsletterComponent implements OnInit {
   OnList() {
     this.checkLogin();
     console.log("Listing newsletters");
-    this.databaseService.listNewsletters().subscribe( result => console.log(result));
+    this.databaseService.listNewsletters().subscribe(result => console.log(result));
   }
 
 
@@ -135,19 +150,19 @@ export class NewsletterComponent implements OnInit {
     this.displayExportDialog = true;
   }
 
-  OnImageToggle(status : boolean) {
+  OnImageToggle(status: boolean) {
     this.displayImages = status;
   }
 
-  OnLinkToggle(status : boolean) {
+  OnLinkToggle(status: boolean) {
     this.displayLinks = status;
   }
 
-  OnExcerptToggle(status : boolean) {
+  OnExcerptToggle(status: boolean) {
     this.displayExcerpts = status;
   }
 
-  OnTagsToggle(status : boolean) {
+  OnTagsToggle(status: boolean) {
     this.displayTags = status;
   }
 

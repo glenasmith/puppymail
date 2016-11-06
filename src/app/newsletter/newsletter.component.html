@@ -23,7 +23,7 @@
 			<button class="compact ui secondary button" (click)="OnSave()">Save</button>
 			<button class="compact ui secondary button" (click)="OnLoad()">Load</button>
 
-			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" filter="true" (onChange)='OnChange($event)'></p-dropdown>
+			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)='OnChange($event)'></p-dropdown>
 
       			<button class="compact ui secondary button" (click)="OnList()">List</button>
 		</div>
