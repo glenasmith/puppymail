@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
-import { Message } from 'primeng/primeng';
+import { Message, MenuItem } from 'primeng/primeng';
 import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 
 interface SelectItem {
@@ -34,11 +34,28 @@ export class NewsletterComponent implements OnInit {
   displayExcerpts = true;
   displayTags = true;
 
+  menuItems: MenuItem[];
+
   constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService) {
 
   }
 
+  private getMenuItems() : Array<MenuItem> {
+    return [
+    {label: 'Markdown', icon: 'fa-asterisk', command: () => {
+      this.OnExportMarkdown();
+    }},
+    {label: 'HTML', icon: 'fa-code', command: () => {
+      this.OnExportHtml();
+    }},
+      {label: 'Rendered HTML', icon: 'fa-html5', command: () => {
+        this.OnExportRenderedHtml();
+      }},
+      ];
+  }
+
   ngOnInit() {
+    this.menuItems = this.getMenuItems();
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
     this.databaseService.login().then((fas: FirebaseAuthState) => {
       console.log("Login successful", fas.uid);
@@ -54,6 +71,8 @@ export class NewsletterComponent implements OnInit {
           }
           //this.newsletters = savedNewsletters
         });
+    }, (err) => {
+      this.messages.push({ severity: 'warn', summary: 'Firebase Login Failed', detail: `Welcome ${err}` });
     });
   }
 
