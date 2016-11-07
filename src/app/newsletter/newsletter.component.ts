@@ -47,7 +47,11 @@ export class NewsletterComponent implements OnInit {
         (savedNewsletters: string[]) => {
 
           console.log("Fetched newsletters..", savedNewsletters);
-          savedNewsletters.forEach(next => this.newsletters.push({ label: next, value: next }));
+          if (savedNewsletters) {
+              savedNewsletters.forEach(next => this.newsletters.push({ label: next, value: next }));
+          } else {
+              this.newsletters = [];
+          }
           //this.newsletters = savedNewsletters
         });
     });
