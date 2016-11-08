@@ -17,9 +17,11 @@ export class PocketlinkComponent implements OnInit {
   @Input() isLinkOn = true;
   @Input() isExcerptOn = true;
   @Input() isTagsOn = true;
+  @Input() isEditable = false;
   @Input() buttonTitle = "Click";
 
   @Output() onClickedEntry = new EventEmitter<PocketEntry>();
+  @Output() onDoubleClickEntry = new EventEmitter<PocketEntry>();
 
   constructor(private newsletterService : NewsletterService) { }
 
@@ -29,6 +31,10 @@ export class PocketlinkComponent implements OnInit {
 
   OnClickEntry(entry: PocketEntry) {
     this.onClickedEntry.next(entry);
+  }
+
+  OnDoubleClickEntry(entry: PocketEntry) {
+    this.onDoubleClickEntry.next(entry);
   }
 
 

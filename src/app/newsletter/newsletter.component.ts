@@ -22,17 +22,22 @@ export class NewsletterComponent implements OnInit {
   newsEntries: Array<PocketEntry> = [];
   messages: Array<Message> = [];
 
+  currentPocketEntry : PocketEntry;
+
   newsletters: Array<SelectItem> = [];
   newsletterToLoad = '';
 
   exportContent = '';
   displayRenderedDialog = false;
   displayExportDialog = false;
+  displayEditDialog = false;
 
   displayImages = true;
   displayLinks = true;
   displayExcerpts = true;
   displayTags = true;
+
+  isDirty = false;
 
   menuItems: MenuItem[];
 
@@ -76,12 +81,21 @@ export class NewsletterComponent implements OnInit {
     });
   }
 
+  private markNewsletterDirty() {
+    this.isDirty = true;
+  }
+
+  private markNewsletterClean() {
+    this.isDirty = false;
+  }
+
   OnNewArticle(entry: PocketEntry) {
     var index = this.newsEntries.indexOf(entry);
     if (index == -1) {
       this.messages.push({ severity: 'info', summary: 'Added Item', detail: entry.resolved_title });
       console.log(this);
       this.newsEntries.push(entry);
+      this.markNewsletterDirty();
     }
   }
 
@@ -90,8 +104,14 @@ export class NewsletterComponent implements OnInit {
     if (index > -1) {
       this.newsEntries.splice(index, 1);
       this.messages.push({ severity: 'info', summary: 'Removed Item Item', detail: entry.resolved_title });
+      this.markNewsletterDirty();
     }
     this.newsletterService.removeArticle(entry);
+  }
+
+  OnEditEntry(entry: PocketEntry) {
+    this.currentPocketEntry = entry;
+    this.displayEditDialog = true;
   }
 
 
@@ -107,6 +127,7 @@ export class NewsletterComponent implements OnInit {
     console.log("Saving newsletter");
     this.databaseService.saveNewsletter("sample", this.newsEntries);
     this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
+    this.markNewsletterClean();
   }
 
 
@@ -120,6 +141,7 @@ export class NewsletterComponent implements OnInit {
       if (loadedEntries && loadedEntries.length) {
         this.newsEntries = loadedEntries[0];
         this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
+        this.markNewsletterClean();
       } else {
         this.messages.push({ severity: 'warn', summary: `${nameToLoad} Loaded`, detail: `But no entries were found?` });
       }
@@ -132,17 +154,6 @@ export class NewsletterComponent implements OnInit {
   OnChange(event) {
     this.LoadNewsletter(this.newsletterToLoad);
   }
-
-  OnLoad() {
-    this.LoadNewsletter('sample');
-  }
-
-  OnList() {
-    this.checkLogin();
-    console.log("Listing newsletters");
-    this.databaseService.listNewsletters().subscribe(result => console.log(result));
-  }
-
 
   private getHtmlVersion(): string {
 

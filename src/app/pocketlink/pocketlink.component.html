@@ -5,10 +5,10 @@
 			<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
 		</div>
 
-		<div class="content">
-			<a class="header">{{entry.resolved_title}}</a>
+		<div class="content" (dblclick)="OnDoubleClickEntry(entry)">
+			<a class="header" [href]="entry.resolved_url" target="_blank">{{entry.resolved_title}}</a>
 			<div class="meta" *ngIf="isLinkOn">
-				<span class="cinema"><a [href]='entry.resolved_url'>{{entry.resolved_url}}</a></span>
+				<span class="cinema"><a [href]='entry.resolved_url' target="_blank">{{entry.resolved_url}}</a></span>
 			</div>
 			<div class="description" *ngIf="isExcerptOn">
 				<p>{{entry.excerpt}}</p>
