@@ -15,66 +15,39 @@
 
 <body>
 
-	<!-- Following Menu -->
-	<div class="ui large top fixed hidden menu">
-		<div class="ui container">
-			<a class="active item">Home</a>
-			<a class="item">Work</a>
-			<a class="item">Company</a>
-			<a class="item">Careers</a>
-			<div class="right menu">
-				<div class="item">
-					<a class="ui button">Log in</a>
-				</div>
-				<div class="item">
-					<a class="ui primary button">Sign Up</a>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<!-- Sidebar Menu 
-	<div class="ui vertical inverted sidebar menu">
-		<a class="active item">Home</a>
-		<a class="item">Work</a>
-		<a class="item">Company</a>
-		<a class="item">Careers</a>
-		<a class="item">Login</a>
-		<a class="item">Signup</a>
-	</div>
-	-->
+<div class="ui borderless main menu">
+    <div class="ui text container">
+      <div href="#" class="header item">
+        <img class="logo" src="assets/puppymail.png">
+        PuppyMail
+      </div>
+      <a href="#" class="item">Blog</a>
+      <a href="#" class="item">Articles</a>
+      <a href="#" class="ui right floated dropdown item">
+        Dropdown <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">Link Item</div>
+          <div class="item">Link Item</div>
+          <div class="divider"></div>
+          <div class="header">Header Item</div>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            Sub Menu
+            <div class="menu">
+              <div class="item">Link Item</div>
+              <div class="item">Link Item</div>
+            </div>
+          </div>
+          <div class="item">Link Item</div>
+        </div>
+      </a>
+    </div>
+  </div>
 
 
-	<!-- Page Contents -->
-	<div class="pusher">
-		<div class="ui inverted vertical masthead center aligned segment">
 
-			<div class="ui container">
-				<div class="ui large secondary inverted pointing menu">
-					<a class="toc item">
-						<i class="sidebar icon"></i>
-					</a>
-					<a class="active item">Home</a>
-					<a class="item">Work</a>
-					<a class="item">Company</a>
-					<a class="item">Careers</a>
-					<div class="right item">
-						<a class="ui inverted button">Log in</a>
-						<a class="ui inverted button">Sign Up</a>
-					</div>
-				</div>
-			</div>
 
-			<!--
-			<div class="ui text container">
-				<h1 class="ui inverted header">
-					Imagine-a-Company
-				</h1>
-				<h2>Do whatever you want when you want to.</h2>
-				<div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
-			</div>
-      -->
-		</div>
 
 
 		<div class="ui container">
@@ -84,32 +57,8 @@
 		</div>
 
 
-		<div class="ui vertical stripe quote segment">
-			<div class="ui stackable grid">
-				<div class="center aligned row">
-					<div class="wide column">
 
-
-
-
-						<!--
-          <h3>Newsletter Contents go here</h3>
-          <p>That is what they all say about us</p>
-          
-        </div>
-        <div class="four wide column">
-          <h3>Get Pocket Links</h3>
-          <p>
-            I'll fetch them here. With a search and filter option.
-          </p> -->
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-
-
+<!--
 
 		<div class="ui inverted vertical footer segment">
 			<div class="ui container">
@@ -141,11 +90,39 @@
 		</div>
 	</div>
 
+-->
+
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
 	<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.2/semantic.min.js"></script>
+<script>
+$(document)
+    .ready(function() {
 
+      // fix main menu to page on passing
+      $('.main.menu').visibility({
+        type: 'fixed'
+      });
+      $('.overlay').visibility({
+        type: 'fixed',
+        offset: 80
+      });
+
+      // lazy load images
+      $('.image').visibility({
+        type: 'image',
+        transition: 'vertical flip in',
+        duration: 500
+      });
+
+      // show dropdown on hover
+      $('.main.menu  .ui.dropdown').dropdown({
+        on: 'hover'
+      });
+    })
+  ;
+  </script>
 </body>
 
 </html>
