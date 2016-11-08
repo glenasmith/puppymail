@@ -50,7 +50,7 @@ export class DatabaseService {
     //this.checkLogin();
 
     let path = this.getDbKeyForUser() + name;
-    console.log("Attempting to save to: ", path);
+    console.log("Attempting to save to: ", path, data);
     const itemObservable = this.af.database.list(path);
     itemObservable.remove();
     itemObservable.push(data);
@@ -69,8 +69,10 @@ export class DatabaseService {
       let names = [];
       if (listOfNews) {
         listOfNews.forEach((nextItem) => {
-          let name = nextItem['$key'];
-          names.push(name);
+          if (nextItem.hasOwnProperty('$key')) {
+            let name = nextItem['$key'];
+            names.push(name);
+          }
         });
       }
       return names;

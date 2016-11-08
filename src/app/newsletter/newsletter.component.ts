@@ -131,7 +131,7 @@ export class NewsletterComponent implements OnInit {
     this.displayEditDialog = true;
   }
 
-  OnEditSave() {
+  OnEditUpdate() {
     this.displayEditDialog=false
   }
 
@@ -197,7 +197,10 @@ export class NewsletterComponent implements OnInit {
     this.databaseService.loadNewsletter(nameToLoad).subscribe((loadedEntries) => {
       console.log("Loaded entries: ", loadedEntries);
       if (loadedEntries && loadedEntries.length) {
-        this.newsEntries = loadedEntries[0];
+        console.log("Loaded entries", loadedEntries);
+        // Turns that firebase obj into a vanilla array
+        this.newsEntries = JSON.parse(JSON.stringify(loadedEntries[0]));
+        console.log("Loaded newsletter", this.newsEntries);
         this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
         this.markNewsletterClean();
       } else {
@@ -209,8 +212,11 @@ export class NewsletterComponent implements OnInit {
     });
   }
 
-  OnChange(event) {
+  OnNewsletterDropdownChange(event) {
+    console.log("Change event is ", event);
+    this.newsletterToLoad = event.value;
     this.LoadNewsletter(this.newsletterToLoad);
+    this.newsletterName = this.newsletterToLoad
   }
 
   private getHtmlVersion(): string {

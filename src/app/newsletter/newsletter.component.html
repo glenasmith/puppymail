@@ -25,7 +25,7 @@
 	</textarea>
 
   <footer>
-      <button class="compact ui primary button"  (click)="OnEditSave()">Save</button>
+      <button class="compact ui primary button"  (click)="OnEditUpdate()">Update</button>
       <button class="compact ui secondary button"  (click)="OnEditCancel()">Cancel</button>
   </footer>
 
@@ -52,8 +52,8 @@
 	<div class="row">
 		<div class="column">
       <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportRenderedHtml()" [model]="exportMenuItems"></p-splitButton>
-      <p-splitButton label="Save" icon="fa-floopy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
-			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)='OnChange($event)'></p-dropdown>
+      <p-splitButton label="Save" icon="fa-floppy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
+			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
       <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
 
 		</div>
