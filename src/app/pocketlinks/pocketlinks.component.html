@@ -18,18 +18,18 @@
 			</div>
 
 <div class="dataListHolder" *ngIf="loaded">
-	<p-dataList [value]="filteredEntries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both">
+	<p-dataList [value]="filteredEntries" [paginator]="true" [rows]="rowsToDisplay" paginatorPosition="both" [rowsPerPageOptions]="[3,5,10,25,50]">
 
 		<header>
-			
+
 		</header>
 
 
 		<template let-entry>
 
-			<app-pocketlink 
+			<app-pocketlink
 					[entry]="entry" [buttonTitle]="'Add'"
-					[isImageOn]="displayImages" [isLinkOn]="displayLinks" 
+					[isImageOn]="displayImages" [isLinkOn]="displayLinks"
 					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
 					(onClickedEntry)="OnAddEntry($event)"
 					>
