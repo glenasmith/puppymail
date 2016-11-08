@@ -32,6 +32,7 @@ export class NewsletterComponent implements OnInit {
   displayRenderedDialog = false;
   displayExportDialog = false;
   displayEditDialog = false;
+  displaySaveAsDialog = false;
 
   displayImages = true;
   displayLinks = true;
@@ -41,14 +42,16 @@ export class NewsletterComponent implements OnInit {
   isDirty = false;
 
   newsletterName = "sample";
+  newsletterNameSaveAs = "";
 
   exportMenuItems: MenuItem[];
+  saveMenuItems: MenuItem[];
 
   constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService, private confirmationService: ConfirmationService) {
 
   }
 
-  private getMenuItems() : Array<MenuItem> {
+  private getExportMenuItems() : Array<MenuItem> {
     return [
     {label: 'Markdown', icon: 'fa-asterisk', command: () => {
       this.OnExportMarkdown();
@@ -62,8 +65,20 @@ export class NewsletterComponent implements OnInit {
       ];
   }
 
+  private getSaveMenuItems() : Array<MenuItem> {
+    return [
+      {label: 'Save', icon: 'fa-floppy-o', command: () => {
+        this.OnSave();
+      }},
+      {label: 'Save As...', icon: 'fa-files-o', command: () => {
+        this.OnSaveAs();
+      }}
+    ];
+  }
+
   ngOnInit() {
-    this.exportMenuItems = this.getMenuItems();
+    this.exportMenuItems = this.getExportMenuItems();
+    this.saveMenuItems = this.getSaveMenuItems();
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
     this.databaseService.login().then((fas: FirebaseAuthState) => {
       console.log("Login successful", fas.uid);
@@ -139,6 +154,21 @@ export class NewsletterComponent implements OnInit {
     console.log("Saving newsletter");
     this.databaseService.saveNewsletter(this.newsletterName, this.newsEntries);
     this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
+    this.markNewsletterClean();
+  }
+
+  OnSaveAs() {
+    this.checkLogin();
+    console.log("Saving As newsletter");
+    this.displaySaveAsDialog = true;
+    this.newsletterNameSaveAs = this.newsletterName;
+  }
+
+  OnSaveAsContinue() {
+    this.displaySaveAsDialog = false;
+    this.databaseService.saveNewsletter(this.newsletterNameSaveAs, this.newsEntries);
+    this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
+    this.newsletterName = this.newsletterNameSaveAs;
     this.markNewsletterClean();
   }
 

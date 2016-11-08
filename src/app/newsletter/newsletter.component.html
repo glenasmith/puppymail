@@ -33,13 +33,28 @@
 
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
+<p-dialog header="Save Newsletter As..." [(visible)]="displaySaveAsDialog" [responsive]="true" [width]="500" modal="modal">
+
+  Save {{newsletterName}} As
+
+  <!-- <p-inputMask [(ngModel)]="newsletterNameSaveAs" mask="******************************"></p-inputMask> -->
+  <input [(ngModel)]="newsletterNameSaveAs">
+
+  <footer>
+    <button class="compact ui primary button"  (click)="OnSaveAsContinue()">Save As</button>
+    <button class="compact ui secondary button"  (click)="displaySaveAsDialog=false">Cancel</button>
+  </footer>
+
+</p-dialog>
+
+
 <div class="ui two column grid">
 	<div class="row">
 		<div class="column">
       <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportRenderedHtml()" [model]="exportMenuItems"></p-splitButton>
-			<button class="compact ui secondary button" (click)="OnSave()">Save</button>
-      <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
+      <p-splitButton label="Save" icon="fa-floopy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
 			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)='OnChange($event)'></p-dropdown>
+      <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
 
 		</div>
 		<div class="column">
