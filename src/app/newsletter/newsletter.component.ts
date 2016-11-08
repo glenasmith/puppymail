@@ -35,7 +35,7 @@ export class NewsletterComponent implements OnInit {
   displaySaveAsDialog = false;
 
   displayImages = true;
-  displayLinks = true;
+  displayLinks = false;
   displayExcerpts = true;
   displayTags = true;
 
