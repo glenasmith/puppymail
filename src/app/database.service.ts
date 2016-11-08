@@ -38,6 +38,14 @@ export class DatabaseService {
     return `/users/${uidSafe}/newsletters/`
   }
 
+
+  deleteNewsletter(name : string) {
+    let path = this.getDbKeyForUser() + name;
+    console.log("Attempting to save to: ", path);
+    const itemObservable = this.af.database.list(path);
+    itemObservable.remove();
+  }
+
   saveNewsletter(name: string, data: Array<PocketEntry>) {
     //this.checkLogin();
 

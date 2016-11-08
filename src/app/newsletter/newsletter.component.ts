@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
-import { Message, MenuItem } from 'primeng/primeng';
+import { Message, MenuItem, ConfirmationService } from 'primeng/primeng';
 import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 
 interface SelectItem {
@@ -23,6 +23,7 @@ export class NewsletterComponent implements OnInit {
   messages: Array<Message> = [];
 
   currentPocketEntry : PocketEntry;
+  oldPocketEntry : PocketEntry;
 
   newsletters: Array<SelectItem> = [];
   newsletterToLoad = '';
@@ -39,9 +40,11 @@ export class NewsletterComponent implements OnInit {
 
   isDirty = false;
 
-  menuItems: MenuItem[];
+  newsletterName = "sample";
 
-  constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService) {
+  exportMenuItems: MenuItem[];
+
+  constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService, private confirmationService: ConfirmationService) {
 
   }
 
@@ -60,7 +63,7 @@ export class NewsletterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.menuItems = this.getMenuItems();
+    this.exportMenuItems = this.getMenuItems();
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
     this.databaseService.login().then((fas: FirebaseAuthState) => {
       console.log("Login successful", fas.uid);
@@ -69,12 +72,10 @@ export class NewsletterComponent implements OnInit {
         (savedNewsletters: string[]) => {
 
           console.log("Fetched newsletters..", savedNewsletters);
+          this.newsletters = [];
           if (savedNewsletters) {
               savedNewsletters.forEach(next => this.newsletters.push({ label: next, value: next }));
-          } else {
-              this.newsletters = [];
           }
-          //this.newsletters = savedNewsletters
         });
     }, (err) => {
       this.messages.push({ severity: 'warn', summary: 'Firebase Login Failed', detail: `Welcome ${err}` });
@@ -111,7 +112,18 @@ export class NewsletterComponent implements OnInit {
 
   OnEditEntry(entry: PocketEntry) {
     this.currentPocketEntry = entry;
+    this.oldPocketEntry = JSON.parse(JSON.stringify(entry));
     this.displayEditDialog = true;
+  }
+
+  OnEditSave() {
+    this.displayEditDialog=false
+  }
+
+  OnEditCancel() {
+    this.currentPocketEntry.resolved_title = this.oldPocketEntry.resolved_title;
+    this.currentPocketEntry.excerpt = this.oldPocketEntry.excerpt;
+    this.displayEditDialog=false
   }
 
 
@@ -125,9 +137,25 @@ export class NewsletterComponent implements OnInit {
   OnSave() {
     this.checkLogin();
     console.log("Saving newsletter");
-    this.databaseService.saveNewsletter("sample", this.newsEntries);
+    this.databaseService.saveNewsletter(this.newsletterName, this.newsEntries);
     this.messages.push({ severity: 'info', summary: 'Newsletter Saved', detail: `Saved ${this.newsEntries.length} item(s)` });
     this.markNewsletterClean();
+  }
+
+  OnDelete() {
+    this.checkLogin();
+    this.confirmationService.confirm({
+      message: `Are you sure that you want to delete newsletter ${this.newsletterName} with ${this.newsEntries.length} item(s)?`,
+      accept: () => {
+        console.log("Deleting newsletter");
+        this.databaseService.deleteNewsletter(this.newsletterName);
+        this.messages.push({ severity: 'info', summary: 'Newsletter Deleted', detail: `Deleted ${this.newsletterName} with ${this.newsEntries.length} item(s)` });
+        this.newsEntries = [];
+        this.newsletterName = "sample";
+        this.markNewsletterClean();
+      }
+    });
+
   }
 
 

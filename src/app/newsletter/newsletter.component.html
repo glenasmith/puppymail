@@ -15,28 +15,30 @@
 </p-dialog>
 
 
-<p-dialog *ngIf="currentPocketEntry" [header]="currentPocketEntry.resolved_title" [(visible)]="displayEditDialog" [responsive]="true" modal="modal">
+<p-dialog *ngIf="currentPocketEntry" [header]="currentPocketEntry.resolved_title" [(visible)]="displayEditDialog" [responsive]="true" modal="modal" [width]="500">
+
+
+  <input [(ngModel)]="currentPocketEntry.resolved_title">
 
   <textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20" [(ngModel)]="currentPocketEntry.excerpt">
 
 	</textarea>
 
   <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-close" (click)="displayEditDialog=false" label="No"></button>
-      <button type="button" pButton icon="fa-check" (click)="displayEditDialog=false" label="Yes"></button>
-    </div>
+      <button class="compact ui primary button"  (click)="OnEditSave()">Save</button>
+      <button class="compact ui secondary button"  (click)="OnEditCancel()">Cancel</button>
   </footer>
 
-
-
 </p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
 <div class="ui two column grid">
 	<div class="row">
 		<div class="column">
-      <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportRenderedHtml()" [model]="menuItems"></p-splitButton>
+      <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportRenderedHtml()" [model]="exportMenuItems"></p-splitButton>
 			<button class="compact ui secondary button" (click)="OnSave()">Save</button>
+      <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
 			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)='OnChange($event)'></p-dropdown>
 
 		</div>
@@ -60,7 +62,7 @@
 	<div class="row">
 		<div class="column">
 
-			<p-orderList [value]="newsEntries" [responsive]="true" header="The Newsletter" >
+			<p-orderList [value]="newsEntries" [responsive]="true" [header]="newsletterName" >
 				<template let-newsEntry>
 
 					<app-pocketlink
