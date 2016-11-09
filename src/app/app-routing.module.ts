@@ -11,7 +11,22 @@ const routes: Routes = [
     { path: '',  redirectTo: '/pocket',  pathMatch: 'full'},
    // { path: 'subscribers', component: SubscribersComponent, canActivate: [LoggedInGuard] },
     //{ path: 'pocket', component: PocketlinksComponent, canActivate: [PocketGuard] },
-    { path: 'pocket', component: NewsletterComponent, canActivate: [PocketGuard] }, 
+    { path: 'pocket', component: NewsletterComponent, canActivate: [PocketGuard],
+      // children: [
+      //   {
+      //     path: 'select',
+      //     component: NewsletterSelectComponent
+      //   },
+      //   {
+      //     path: 'organise',
+      //     component: NewsletterOrganiseComponent
+      //   },
+      //   {
+      //     path: 'render',
+      //     component: NewsletterRenderComponent
+      //   }
+      // ]
+    },
     { path: 'login', component: LoginComponent },
     { path: 'login/:operation', component: LoginComponent }
 
