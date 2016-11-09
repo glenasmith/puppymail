@@ -41,12 +41,6 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
       this.filteredEntries = this.clone(this.entries);
       this.tagCategories = newArticles.tags;
       this.loaded = true;
-      this.debounceSearch().subscribe((searchEntries) => {
-        this.filteredEntries = searchEntries;
-      }, (error) => {
-        console.log("Eeeekk.. Search error");
-        console.log(error);
-      });
     });
 
   }
@@ -56,6 +50,12 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
     console.log("Search element is...");
     console.log(this.searchElement);
     console.log("That is all");
+    this.debounceSearch().subscribe((searchEntries) => {
+      this.filteredEntries = searchEntries;
+    }, (error) => {
+      console.log("Eeeekk.. Search error");
+      console.log(error);
+    });
 
   }
 
@@ -63,7 +63,7 @@ export class PocketlinksComponent implements OnInit, AfterViewInit {
     this.newsletterService.addArticle(entry);
   }
 
-  
+
 
   private debounceSearch(): Observable<PocketEntry[]> {
 

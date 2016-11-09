@@ -76,7 +76,10 @@
       <p-splitButton label="Save" icon="fa-floppy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
       <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
       <p>
-        <label for="loadDropDown">Switch Newsletter:</label> <p-dropdown id="loadDropDown" [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
+        <label for="loadDropDown">Switch Newsletter:</label>
+        <span class="dropDownSpan">
+          <p-dropdown id="loadDropDown" [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
+        </span>
       </p>
 		</div>
 		<div class="column">
@@ -102,11 +105,11 @@
   <div class="one column row">
     <div class="column">
 
-      <div class="ui pointing secondary menu">
+      <div class="ui top secondary pointing menu">
         <a class="item active" data-tab="pocket">Pocket Links</a>
         <a class="item" data-tab="newsletter">Newsletter ({{ newsletterName }}) <span *ngIf="isDirty" class="dirtyMarker">*</span></a>
       </div>
-      <div class="ui tab segment" data-tab="pocket">
+      <div class="ui bottom active tab" data-tab="pocket">
 
         <app-pocketlinks
           [displayImages]="displayImages" [displayLinks]="displayLinks"
@@ -114,7 +117,7 @@
         ></app-pocketlinks>
 
       </div>
-      <div class="ui tab segment" data-tab="newsletter">
+      <div class="ui bottom tab" data-tab="newsletter">
 
         <p-orderList [value]="newsEntries" [responsive]="true" (onReorder)="OnReorder($event)">
           <template let-newsEntry>

@@ -17,4 +17,11 @@
     padding: 1em;
 }
 
+:host >>> .search {
+  margin-bottom: 1em;
+}
+
+
+
+
 
