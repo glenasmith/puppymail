@@ -250,10 +250,10 @@ export class NewsletterComponent implements OnInit {
       if (this.displayImages && newsEntry.has_image) {
         this.exportContent += `\n\n![](${newsEntry.image.src})\n\n`;
       }
-      this.exportContent += "* ";
-      this.exportContent += `[${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}`;
+
+      this.exportContent += `# [${newsEntry.resolved_title}](${newsEntry.resolved_url})\n\n`;
       if (this.displayExcerpts) {
-        this.exportContent += ` - ${newsEntry.excerpt}`;
+        this.exportContent += `${newsEntry.excerpt}`;
       }
       this.exportContent += `\n\n`;
 
