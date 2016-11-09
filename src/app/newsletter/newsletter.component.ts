@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ElementRef, Renderer, ChangeDetectorRef} from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
 import { Message, MenuItem, ConfirmationService } from 'primeng/primeng';
 import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 
-import * as showdown from 'showdown';
+import * as showdown from 'showdown'; // for markdown
 
 interface SelectItem {
 
@@ -51,7 +51,11 @@ export class NewsletterComponent implements OnInit {
   exportMenuItems: MenuItem[];
   saveMenuItems: MenuItem[];
 
-  constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService, private confirmationService: ConfirmationService) {
+  showHiddenTextArea = false;
+
+  constructor(private newsletterService: NewsletterService, private databaseService: DatabaseService,
+              private confirmationService: ConfirmationService, private renderer: Renderer,
+              private changeDetectorRef : ChangeDetectorRef ) {
 
   }
 
@@ -225,19 +229,10 @@ export class NewsletterComponent implements OnInit {
     this.newsletterName = this.newsletterToLoad
   }
 
-  private getHtmlVersion(): string {
-
-    let html = '<ul>';
-    this.newsEntries.forEach((newsEntry: PocketEntry) => {
-      html += `<li><a href="${newsEntry.resolved_url}">${newsEntry.resolved_title}</a> - ${newsEntry.excerpt}</li>\n`;
-    })
-    html += '</ul>';
-    return html;
-  }
-
   OnExportHtml() {
-    this.exportContent = this.getHtmlVersion();
-    this.exportContentAlt = this.exportContent;
+    this.OnExportMarkdown();
+    this.exportContent = this.exportContentAlt;
+    this.exportContentAlt = this.exportContentAlt;
     this.displayExportDialog = true;
   }
 
@@ -283,6 +278,25 @@ export class NewsletterComponent implements OnInit {
     this.newsletterService.addArticle(entry);
   }
 
+  OnCopyToClipboard(elementToCopy : ElementRef) {
+    //new Clipboard(textToCopy.nativeElement)
+    console.log(elementToCopy);
+    this.renderer.invokeElementMethod(elementToCopy, "select");
+    //elementToCopy.nativeElement.select();
+    try {
+      // copy text
+      document.execCommand('copy');
+      //elementToCopy.nativeElement.blur();
+      this.renderer.invokeElementMethod(elementToCopy, "blur");
+      this.messages.push({severity: 'info', summary: 'Copied to clipboard'});
+    }
+    catch (err) {
+      this.messages.push({severity: 'warn', summary: 'Please press Ctrl/Cmd+C to copy'});
+    }
+    finally {
+      this.showHiddenTextArea = false;
+    }
+  }
 
 
 }

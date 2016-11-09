@@ -13,3 +13,7 @@
 :host >>> .ui-dialog-content img {
   width: 400px;
 }
+
+:host >>> footer {
+  padding: 1em;
+}

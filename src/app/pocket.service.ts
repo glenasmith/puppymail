@@ -190,6 +190,12 @@ export class PocketEntries {
   public tags : Array<string> = [];
 }
 
+export interface PocketImage {
+  src: string;
+  height: number;
+  width: number;
+}
+
 export class PocketEntry {
 
   public excerpt: string;
@@ -197,6 +203,7 @@ export class PocketEntry {
   public resolved_url: string;
   public time_added: number;
   public has_image : number;
+  public image : PocketImage;
   public item_id: number;
   public tags: Array<Object>;
   public word_count: number;

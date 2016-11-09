@@ -2,7 +2,7 @@
 	<div class="item">
 		<div class="image" *ngIf="isImageOn">
 			<img [src]="entry.image.src" *ngIf="entry.has_image == 1">
-			<img src="http://p-hold.com/300/200" *ngIf="entry.has_image == 0">
+			<img src="http://p-hold.com/100/80" *ngIf="entry.has_image == 0">
 		</div>
 
 		<div class="content" (dblclick)="OnDoubleClickEntry(entry)">

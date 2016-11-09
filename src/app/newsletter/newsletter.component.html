@@ -6,12 +6,19 @@
 
   <p-tabView>
     <p-tabPanel header="Raw">
-
-      <textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20">{{ exportContent }}</textarea>
+      <div class="ui one column grid">
+        <textarea class="column" style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20" #raw>{{ exportContent }}</textarea>
+        <button class="column compact ui primary button" (click)="OnCopyToClipboard(raw)">Copy to Clipboard</button>
+      </div>
     </p-tabPanel>
     <p-tabPanel header="Rendered">
 
-      <div [innerHTML]="exportContentAlt" style="height: 500px; overflow: scroll;"></div>
+      <div class="ui one column grid">
+        <div [innerHTML]="exportContentAlt" class="column" style="height: 500px; overflow: scroll;" #rendered></div>
+        <textarea class="column" #hiddenTextArea rows="1" style="color:white; border:none; overflow:hidden; height: 1px;">{{ exportContentAlt }}</textarea>
+        <button class="column compact ui primary button" (click)="OnCopyToClipboard(hiddenTextArea)">Copy to Clipboard</button>
+      </div>
+
 
     </p-tabPanel>
 
@@ -23,12 +30,20 @@
 
 <p-dialog *ngIf="currentPocketEntry" [header]="currentPocketEntry.resolved_title" [(visible)]="displayEditDialog" [responsive]="true" modal="modal" [width]="500">
 
+  <div class="ui one column grid">
 
-  <input [(ngModel)]="currentPocketEntry.resolved_title">
+    <label for="entryTitle" class="column">Title:</label>
+    <input id="entryTitle"[(ngModel)]="currentPocketEntry.resolved_title" style="width: 95%; margin-left: 10px;">
 
-  <textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20" [(ngModel)]="currentPocketEntry.excerpt">
 
-	</textarea>
+    <label for="entryBody" class="column">Excerpt:</label>
+    <textarea id="entryBody" class="column" style="width: 100%; height: 90%; margin: 1em; box-sizing: border-box;"
+              rows="10"
+              [(ngModel)]="currentPocketEntry.excerpt">
+
+	  </textarea>
+
+  </div>
 
   <footer>
       <button class="compact ui primary button"  (click)="OnEditUpdate()">Update</button>
@@ -54,14 +69,15 @@
 </p-dialog>
 
 
-<div class="ui two column grid">
+<div class="ui stackable two column grid">
 	<div class="row">
 		<div class="column">
       <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportHtml()" [model]="exportMenuItems"></p-splitButton>
       <p-splitButton label="Save" icon="fa-floppy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
-			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
       <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
-
+      <p>
+        <label for="loadDropDown">Switch Newsletter:</label> <p-dropdown id="loadDropDown" [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
+      </p>
 		</div>
 		<div class="column">
 
@@ -83,7 +99,7 @@
 	<div class="row">
 		<div class="column">
 
-			<p-orderList [value]="newsEntries" [responsive]="true" [header]="newsletterName" >
+      <p-orderList [value]="newsEntries" [responsive]="true" [header]="newsletterName" >
 				<template let-newsEntry>
 
 					<app-pocketlink

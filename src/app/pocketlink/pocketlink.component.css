@@ -1,0 +1,6 @@
+/* -- Lots of responsive stuff kicks in around images.. be careful
+:host >>> .image img {
+  width: 100px !important;
+  height: 80px !important;
+}
+*/
