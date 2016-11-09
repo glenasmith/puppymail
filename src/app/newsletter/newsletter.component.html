@@ -96,32 +96,114 @@
 		</div>
 
 	</div>
-	<div class="row">
-		<div class="column">
+
+
+
+  <div class="one column row">
+    <div class="column">
+
+      <div class="ui pointing secondary menu">
+        <a class="item active" data-tab="pocket">Pocket Links</a>
+        <a class="item" data-tab="newsletter">Newsletter ({{ newsletterName }}) <span *ngIf="isDirty" class="dirtyMarker">*</span></a>
+      </div>
+      <div class="ui tab segment" data-tab="pocket">
+
+        <app-pocketlinks
+          [displayImages]="displayImages" [displayLinks]="displayLinks"
+          [displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
+        ></app-pocketlinks>
+
+      </div>
+      <div class="ui tab segment" data-tab="newsletter">
+
+        <p-orderList [value]="newsEntries" [responsive]="true" (onReorder)="OnReorder($event)">
+          <template let-newsEntry>
+
+            <app-pocketlink
+              [entry]="newsEntry" [buttonTitle]="'Remove'"
+              [isImageOn]="displayImages" [isLinkOn]="displayLinks"
+              [isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+              (onClickedEntry)="OnRemoveEntry($event)"
+              (onDoubleClickEntry)="OnEditEntry($event)"
+            >
+            </app-pocketlink>
+
+          </template>
+        </p-orderList>
+
+
+      </div>
+
+      <!--
+
+      <p-tabView>
+
+          <p-tabPanel header="Pocket Links">
+            <app-pocketlinks
+              [displayImages]="displayImages" [displayLinks]="displayLinks"
+              [displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
+            ></app-pocketlinks>
+          </p-tabPanel>
+
+          <p-tabPanel [header]="newsletterName">
+
+            <p-orderList [value]="newsEntries" [responsive]="true">
+              <template let-newsEntry>
+
+                <app-pocketlink
+                  [entry]="newsEntry" [buttonTitle]="'Remove'"
+                  [isImageOn]="displayImages" [isLinkOn]="displayLinks"
+                  [isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+                  (onClickedEntry)="OnRemoveEntry($event)"
+                  (onDoubleClickEntry)="OnEditEntry($event)"
+                >
+                </app-pocketlink>
+
+              </template>
+            </p-orderList>
+
+
+
+          </p-tabPanel>
+
+      </p-tabView>
+
+    </div>
+
+  </div>
+
+  -->
+
+<!--
+  <div class="one column row">
+    <div class="column">
+      <app-pocketlinks
+        [displayImages]="displayImages" [displayLinks]="displayLinks"
+        [displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
+      ></app-pocketlinks>
+    </div>
+
+  </div>
+  <div class="one column row">
+    <div class="column">
 
       <p-orderList [value]="newsEntries" [responsive]="true" [header]="newsletterName" >
-				<template let-newsEntry>
+        <template let-newsEntry>
 
-					<app-pocketlink
-					[entry]="newsEntry" [buttonTitle]="'Remove'"
-					[isImageOn]="displayImages" [isLinkOn]="displayLinks"
-					[isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
-					(onClickedEntry)="OnRemoveEntry($event)"
-          (onDoubleClickEntry)="OnEditEntry($event)"
-					>
-					</app-pocketlink>
+          <app-pocketlink
+            [entry]="newsEntry" [buttonTitle]="'Remove'"
+            [isImageOn]="displayImages" [isLinkOn]="displayLinks"
+            [isExcerptOn]="displayExcerpts" [isTagsOn]="displayTags"
+            (onClickedEntry)="OnRemoveEntry($event)"
+            (onDoubleClickEntry)="OnEditEntry($event)"
+          >
+          </app-pocketlink>
 
-				</template>
-			</p-orderList>
+        </template>
+      </p-orderList>
 
-		</div>
-		<div class="column">
-			<app-pocketlinks
-					[displayImages]="displayImages" [displayLinks]="displayLinks"
-					[displayExcerpts]="displayExcerpts" [displayTags]="displayTags"
-			></app-pocketlinks>
-		</div>
-
-	</div>
+    </div>
+  </div>
+  -->
 
 </div>

@@ -17,3 +17,13 @@
 :host >>> footer {
   padding: 1em;
 }
+
+:host >>> .ui-dropdown {
+  width: 150px !important;
+}
+
+.dirtyMarker {
+  color: red;
+}
+
+

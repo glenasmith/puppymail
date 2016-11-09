@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, Renderer, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ElementRef, Renderer, ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import { PocketService, PocketEntries, PocketEntry } from '../pocket.service';
 import { NewsletterService } from '../newsletter.service';
 import { DatabaseService } from '../database.service';
@@ -6,6 +6,8 @@ import { Message, MenuItem, ConfirmationService } from 'primeng/primeng';
 import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 
 import * as showdown from 'showdown'; // for markdown
+
+declare var jQuery:any;
 
 interface SelectItem {
 
@@ -19,7 +21,7 @@ interface SelectItem {
   templateUrl: './newsletter.component.html',
   styleUrls: ['./newsletter.component.css']
 })
-export class NewsletterComponent implements OnInit {
+export class NewsletterComponent implements OnInit, AfterViewInit {
 
   newsEntries: Array<PocketEntry> = [];
   messages: Array<Message> = [];
@@ -105,6 +107,10 @@ export class NewsletterComponent implements OnInit {
     }, (err) => {
       this.messages.push({ severity: 'warn', summary: 'Firebase Login Failed', detail: `Welcome ${err}` });
     });
+  }
+
+  ngAfterViewInit() {
+    jQuery('.menu .item').tab();
   }
 
   private markNewsletterDirty() {
@@ -198,7 +204,9 @@ export class NewsletterComponent implements OnInit {
 
   }
 
-
+  OnReorder($event) {
+    this.markNewsletterDirty();
+  }
 
 
   LoadNewsletter(nameToLoad) {
