@@ -9,3 +9,7 @@
 :host >>> li {
     padding: 1em !important;
 }
+
+:host >>> .ui-dialog-content img {
+  width: 400px;
+}

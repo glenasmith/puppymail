@@ -2,17 +2,23 @@
 
 </p-growl>
 
-<p-dialog header="Export Content" [(visible)]="displayExportDialog" [responsive]="true" [width]="500">
-	<textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20">
-		{{ exportContent }}
-	</textarea>
+<p-dialog header="Export Content" [(visible)]="displayExportDialog" [responsive]="true" [width]="500" modal="modal">
+
+  <p-tabView>
+    <p-tabPanel header="Raw">
+
+      <textarea style="width: 100%; height: 100%; margin: 1em; box-sizing: border-box;" rows="20">{{ exportContent }}</textarea>
+    </p-tabPanel>
+    <p-tabPanel header="Rendered">
+
+      <div [innerHTML]="exportContentAlt" style="height: 500px; overflow: scroll;"></div>
+
+    </p-tabPanel>
+
+  </p-tabView>
+
 </p-dialog>
 
-<p-dialog header="Export Rendered Content" [(visible)]="displayRenderedDialog" [responsive]="true" [width]="500">
-
-	<div [innerHTML]="exportContent"></div>
-
-</p-dialog>
 
 
 <p-dialog *ngIf="currentPocketEntry" [header]="currentPocketEntry.resolved_title" [(visible)]="displayEditDialog" [responsive]="true" modal="modal" [width]="500">
@@ -51,7 +57,7 @@
 <div class="ui two column grid">
 	<div class="row">
 		<div class="column">
-      <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportRenderedHtml()" [model]="exportMenuItems"></p-splitButton>
+      <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportHtml()" [model]="exportMenuItems"></p-splitButton>
       <p-splitButton label="Save" icon="fa-floppy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
 			<p-dropdown [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
       <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>

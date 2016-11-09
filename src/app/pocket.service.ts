@@ -196,9 +196,10 @@ export class PocketEntry {
   public resolved_title: string;
   public resolved_url: string;
   public time_added: number;
+  public has_image : number;
   public item_id: number;
   public tags: Array<Object>;
   public word_count: number;
-  
+
 
 }

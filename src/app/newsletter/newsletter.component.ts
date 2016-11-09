@@ -5,6 +5,8 @@ import { DatabaseService } from '../database.service';
 import { Message, MenuItem, ConfirmationService } from 'primeng/primeng';
 import { FirebaseAuthState, FirebaseListObservable } from 'angularfire2';
 
+import * as showdown from 'showdown';
+
 interface SelectItem {
 
   label: string
@@ -29,6 +31,8 @@ export class NewsletterComponent implements OnInit {
   newsletterToLoad = '';
 
   exportContent = '';
+  exportContentAlt = '';
+
   displayRenderedDialog = false;
   displayExportDialog = false;
   displayEditDialog = false;
@@ -37,7 +41,7 @@ export class NewsletterComponent implements OnInit {
   displayImages = true;
   displayLinks = false;
   displayExcerpts = true;
-  displayTags = true;
+  displayTags = false;
 
   isDirty = false;
 
@@ -51,18 +55,20 @@ export class NewsletterComponent implements OnInit {
 
   }
 
-  private getExportMenuItems() : Array<MenuItem> {
+  private getExportMenuItems(): Array<MenuItem> {
     return [
-    {label: 'Markdown', icon: 'fa-asterisk', command: () => {
-      this.OnExportMarkdown();
-    }},
-    {label: 'HTML', icon: 'fa-code', command: () => {
-      this.OnExportHtml();
-    }},
-      {label: 'Rendered HTML', icon: 'fa-html5', command: () => {
-        this.OnExportRenderedHtml();
-      }},
-      ];
+      {
+        label: 'Markdown', icon: 'fa-asterisk', command: () => {
+        this.OnExportMarkdown();
+      }
+      },
+      {
+        label: 'HTML', icon: 'fa-code', command: () => {
+        this.OnExportHtml();
+      }
+      }
+
+    ];
   }
 
   private getSaveMenuItems() : Array<MenuItem> {
@@ -231,20 +237,29 @@ export class NewsletterComponent implements OnInit {
 
   OnExportHtml() {
     this.exportContent = this.getHtmlVersion();
+    this.exportContentAlt = this.exportContent;
     this.displayExportDialog = true;
   }
 
-  OnExportRenderedHtml() {
-    this.exportContent = this.getHtmlVersion();
-    this.displayRenderedDialog = true;
-  }
 
   OnExportMarkdown() {
 
     this.exportContent = '';
     this.newsEntries.forEach((newsEntry: PocketEntry) => {
-      this.exportContent += `* [${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}\n`;
-    })
+
+      if (this.displayImages && newsEntry.has_image) {
+        this.exportContent += `\n\n![](${newsEntry.image.src})\n\n`;
+      }
+      this.exportContent += "* ";
+      this.exportContent += `[${newsEntry.resolved_title}](${newsEntry.resolved_url}) - ${newsEntry.excerpt}`;
+      if (this.displayExcerpts) {
+        this.exportContent += ` - ${newsEntry.excerpt}`;
+      }
+      this.exportContent += `\n\n`;
+
+
+    });
+    this.exportContentAlt = new showdown.Converter().makeHtml(this.exportContent);
     this.displayExportDialog = true;
   }
 
