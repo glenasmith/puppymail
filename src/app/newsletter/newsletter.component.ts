@@ -150,6 +150,7 @@ export class NewsletterComponent implements OnInit, AfterViewInit {
 
   OnEditUpdate() {
     this.displayEditDialog=false
+    this.markNewsletterDirty();
   }
 
   OnEditCancel() {
