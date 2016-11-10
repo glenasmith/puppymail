@@ -1,34 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { PocketlinksComponent } from './pocketlinks/pocketlinks.component';
 import { PocketGuard } from './pocket.guard';
 import { NewsletterComponent } from './newsletter/newsletter.component';
-// import { LoggedInGuard } from './login.guard';
+import { AboutComponent } from "./about/about.component";
 
 
 const routes: Routes = [
-    { path: '',  redirectTo: '/pocket',  pathMatch: 'full'},
-   // { path: 'subscribers', component: SubscribersComponent, canActivate: [LoggedInGuard] },
-    //{ path: 'pocket', component: PocketlinksComponent, canActivate: [PocketGuard] },
-    { path: 'pocket', component: NewsletterComponent, canActivate: [PocketGuard],
-      // children: [
-      //   {
-      //     path: 'select',
-      //     component: NewsletterSelectComponent
-      //   },
-      //   {
-      //     path: 'organise',
-      //     component: NewsletterOrganiseComponent
-      //   },
-      //   {
-      //     path: 'render',
-      //     component: NewsletterRenderComponent
-      //   }
-      // ]
-    },
+    { path: '',  redirectTo: '/dashboard',  pathMatch: 'full'},
+    { path: 'dashboard', component: NewsletterComponent, canActivate: [PocketGuard] },
     { path: 'login', component: LoginComponent },
-    { path: 'login/:operation', component: LoginComponent }
+    { path: 'login/:operation', component: LoginComponent },
+    { path: 'about', component: AboutComponent },
 
 ];
 

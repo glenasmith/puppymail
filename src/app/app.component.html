@@ -1,2 +1,24 @@
-<router-outlet></router-outlet>
-        
+<div class="ui borderless main menu">
+  <div class="ui text container">
+    <div class="header item">
+      <img class="logo" src="assets/puppymail.png">
+      PuppyMail
+    </div>
+    <!--
+    <a href="#" class="item">Select</a>
+    <a href="#" class="item">Organise</a>
+    <a href="#" class="item">Generate</a>
+    -->
+    <div class="right menu">
+    <a routerLink="/dashboard" routerLinkActive="active" class="ui item">Dashboard</a>
+    <a routerLink="/about" routerLinkActive="active" class="ui item">About</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="ui container">
+
+  <router-outlet></router-outlet>
+
+</div>

@@ -24,6 +24,7 @@ import { DataListModule, OrderListModule, GrowlModule, DialogModule, TabViewModu
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { PocketlinkComponent } from './pocketlink/pocketlink.component';
 import { PocketdisplayoptionsComponent } from './pocketdisplayoptions/pocketdisplayoptions.component';
+import { AboutComponent } from './about/about.component';
 
  export const firebaseConfig = {
     apiKey: "AIzaSyCWw0pm52jeu48qR1GVTt41P8yKyXU-WHc",
@@ -49,7 +50,8 @@ export const firebaseAuthConfig = {
     PocketlinksComponent,
     NewsletterComponent,
     PocketlinkComponent,
-    PocketdisplayoptionsComponent
+    PocketdisplayoptionsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

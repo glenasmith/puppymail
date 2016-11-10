@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           this.pocketService.getUserAccessToken(code).then(
             (accessToken) => {
               console.log(`Username is: ${this.pocketService.userName}`);
-              this.router.navigate(['/pocket']);
+              this.router.navigate(['/dashboard']);
             }
           ).catch( (error) => {
             this.switchToErrorMode("Acquiring Access Token", error);
