@@ -47,7 +47,7 @@ export class NewsletterComponent implements OnInit, AfterViewInit {
 
   isDirty = false;
 
-  newsletterName = "sample";
+  newsletterName = "your-newsletter";
   newsletterNameSaveAs = "";
 
   exportMenuItems: MenuItem[];
@@ -94,6 +94,7 @@ export class NewsletterComponent implements OnInit, AfterViewInit {
     this.newsletterService.newArticles.subscribe(this.OnNewArticle.bind(this));
     this.databaseService.login().then((fas: FirebaseAuthState) => {
       console.log("Login successful", fas.uid);
+      this.databaseService.userId = fas.uid;
       this.messages.push({ severity: 'info', summary: 'Firebase Login', detail: `Welcome ${fas.uid}` });
       this.databaseService.listNewsletters().subscribe(
         (savedNewsletters: string[]) => {

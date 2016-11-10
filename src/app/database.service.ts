@@ -8,6 +8,8 @@ import { PocketService, PocketEntries, PocketEntry } from './pocket.service';
 @Injectable()
 export class DatabaseService {
 
+  public userId = '';
+
   private loggedIn = false;
 
   constructor(private af: AngularFire, private pocketService: PocketService) { }
@@ -33,9 +35,9 @@ export class DatabaseService {
   }
 
   private getDbKeyForUser(): string {
-    let uid = this.pocketService.userName;
-    let uidSafe = uid.replace(/@/g, "-at-").replace(/\./g, "-dot-");
-    return `/users/${uidSafe}/newsletters/`
+    let uid = this.userId;
+    //let uidSafe = uid.replace(/@/g, "-at-").replace(/\./g, "-dot-");
+    return `/users/${uid}/newsletters/`
   }
 
 
@@ -51,9 +53,16 @@ export class DatabaseService {
 
     let path = this.getDbKeyForUser() + name;
     console.log("Attempting to save to: ", path, data);
-    const itemObservable = this.af.database.list(path);
-    itemObservable.remove();
-    itemObservable.push(data);
+    try {
+      const itemObservable = this.af.database.list(path);
+      itemObservable.remove();
+      itemObservable.push(data).then( (stuff) => {
+        console.log(stuff);
+        console.log("Save complete");
+      });
+    } catch (err) {
+      throw err;
+    }
   }
 
   listNewsletters(): Observable<Array<string>> {
@@ -61,22 +70,27 @@ export class DatabaseService {
 
     let path = this.getDbKeyForUser();
 
-    return this.af.database.list(path, {
-      query: {
-        orderByKey: true,
-      }
-    }).map(listOfNews => {
-      let names = [];
-      if (listOfNews) {
-        listOfNews.forEach((nextItem) => {
-          if (nextItem.hasOwnProperty('$key')) {
-            let name = nextItem['$key'];
-            names.push(name);
-          }
-        });
-      }
-      return names;
-    });
+    try {
+      return this.af.database.list(path, {
+        query: {
+          orderByKey: true,
+        }
+      }).map(listOfNews => {
+        let names = [];
+        if (listOfNews) {
+          listOfNews.forEach((nextItem) => {
+            if (nextItem.hasOwnProperty('$key')) {
+              let name = nextItem['$key'];
+              names.push(name);
+            }
+          });
+        }
+        return names;
+      })
+    } catch(unlucky) {
+      console.log("Bad luck listing newsletters", unlucky);
+      return Observable.from([]);
+    };
   }
 
   loadNewsletter(name: string): FirebaseListObservable<Array<Array<PocketEntry>>> {
