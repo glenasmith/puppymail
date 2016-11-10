@@ -222,7 +222,8 @@ export class NewsletterComponent implements OnInit, AfterViewInit {
         this.messages.push({ severity: 'info', summary: `${nameToLoad} Loaded`, detail: `Loaded ${this.newsEntries.length} item(s)` });
         this.markNewsletterClean();
       } else {
-        this.messages.push({ severity: 'warn', summary: `${nameToLoad} Loaded`, detail: `But no entries were found?` });
+        //this.messages.push({ severity: 'warn', summary: `${nameToLoad} Loaded`, detail: `But no entries were found?` });
+        console.log(`${nameToLoad} Loaded. Still waiting for entries to arrive`);
       }
     }, (error) => {
       console.log(`Failed to load ${nameToLoad} newsletter`, error);

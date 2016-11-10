@@ -75,12 +75,6 @@
       <p-splitButton label="Export" icon="fa-clone" (onClick)="OnExportHtml()" [model]="exportMenuItems"></p-splitButton>
       <p-splitButton label="Save" icon="fa-floppy-o" (onClick)="OnSave()" [model]="saveMenuItems"></p-splitButton>
       <button class="compact ui secondary button" (click)="OnDelete()">Delete</button>
-      <p>
-        <label for="loadDropDown">Switch Newsletter:</label>
-        <span class="dropDownSpan">
-          <p-dropdown id="loadDropDown" [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
-        </span>
-      </p>
 		</div>
 		<div class="column">
 
@@ -101,13 +95,21 @@
 	</div>
 
 
-
   <div class="one column row">
     <div class="column">
 
       <div class="ui top secondary pointing menu">
         <a class="item active" data-tab="pocket">Pocket Links</a>
         <a class="item" data-tab="newsletter">Newsletter ({{ newsletterName }}) <span *ngIf="isDirty" class="dirtyMarker">*</span></a>
+        <div class="right menu">
+          <div class="item loadItem">
+
+            <label for="loadDropDown" class="dropDownLabel">Load Newsletter: </label>
+            <p-dropdown id="loadDropDown" [options]="newsletters" [(ngModel)]="newsletterToLoad" (onChange)="OnNewsletterDropdownChange($event)"></p-dropdown>
+
+          </div>
+
+        </div>
       </div>
       <div class="ui bottom active tab" data-tab="pocket">
 

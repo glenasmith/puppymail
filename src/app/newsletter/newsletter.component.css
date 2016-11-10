@@ -26,4 +26,12 @@
   color: red;
 }
 
+.loadItem {
+  padding-bottom: 6px !important;
+}
+
+.dropDownLabel {
+  margin-right: 4px;
+}
+
 
