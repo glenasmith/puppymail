@@ -7,7 +7,7 @@ import { AboutComponent } from "./about/about.component";
 
 
 const routes: Routes = [
-    { path: '',  redirectTo: '/dashboard',  pathMatch: 'full'},
+    { path: '',  redirectTo: '/about',  pathMatch: 'full'},
     { path: 'dashboard', component: NewsletterComponent, canActivate: [PocketGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'login/:operation', component: LoginComponent },
