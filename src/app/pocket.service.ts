@@ -23,7 +23,7 @@ export class PocketService {
   accessToken: string = '';
   firebaseToken : string = '';
 
-  private POCKET_RETURN_URL = environment.baseAppUrl + '/login/backFromPocket';
+  private POCKET_RETURN_URL = environment.baseAppUrl + '#/login/backFromPocket';
 
   // Check out https://getpocket.com/developer/docs/authentication
   constructor(private http: Http, private router: Router) { }
